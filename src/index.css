@@ -1,0 +1,201 @@
+body {
+  margin: 0px;
+  font-family: cursive;
+}
+
+main {
+  margin: 0px;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(26, 202, 202);
+  background-image: linear-gradient(to right, rgb(35, 202, 202), pink);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 0px;
+  background-color: white;
+  color: rgb(22, 201, 201);
+}
+
+.logo {
+  font-family: cursive;
+  color: rgb(0, 0, 0);
+  padding: 30px 60px;
+}
+
+.header {
+  box-shadow: 0px 0px 10px #999;
+  display: flex;
+}
+
+.header ul {
+  display: flex;
+  flex-direction: row;
+  gap: 46px;
+  list-style: none;
+}
+
+.header li {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: normal;
+  cursor: pointer;
+  color: black;
+  position: relative;
+  top: 15px;
+  left: 700px;
+  text-decoration: none;
+}
+
+.title {
+  padding: 80px 60px;
+  color: black;
+  font-size: 40px;
+  width: 50vw;
+}
+
+/* .layout{
+  width: 50vw;
+  height: 100vh;
+  background-color: black;
+} */
+
+.signin {
+  position: relative;
+  color: rgb(0, 0, 0);
+  background-color: white;
+  height: 100vh;
+}
+
+.signin p {
+  position: relative;
+  top: 30px;
+  padding-left: 50px;
+}
+
+.signin-box {
+  width: 30%;
+  height: 70vh;
+  border: solid 1px rgb(35, 202, 202);
+  border-radius: 1%;
+  position: relative;
+  top: 80px;
+  margin: auto;
+  padding: 30px 30px;
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signin-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.signin-box h1 {
+  color: rgb(35, 202, 202);
+}
+.signin-box input {
+  height: 40px;
+  width: 390px;
+  border: solid 1px rgb(35, 202, 202);
+  border-radius: 10px;
+  font-size: medium;
+  padding: 0px 10px;
+}
+
+.signin-box button {
+  width: 100%;
+  margin: 0px auto;
+  background-color: rgb(35, 202, 202);
+  height: 30px;
+  color: white;
+}
+.signin-box p {
+  text-align: center;
+  padding: 0px;
+}
+
+.err {
+  color: red;
+  font-size: small;
+  margin: -35px;
+  padding-left: 30px;
+}
+
+.dashboard {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.dark {
+  background-color: rgb(32, 32, 32);
+  color: white;
+}
+
+.light {
+  background-color: white;
+  color: rgb(34, 33, 33);
+}
+
+.dashboard-sidebar {
+  width: 20vw;
+  height: 100vh;
+  border-right: solid 1px grey;
+}
+
+.sidebar-menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0px;
+  position: absolute;
+  top: 130px;
+}
+
+.inactive {
+  width: 18vw;
+  height: 40px;
+  list-style: none;
+  border-radius: 0px 20px 20px 0px;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+.inactive:hover {
+  background-color: rgb(145, 136, 136, 0.1);
+}
+
+.active {
+  background-color: purple;
+  width: 18vw;
+  height: 40px;
+  list-style: none;
+  border-radius: 0px 20px 20px 0px;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+.active:hover {
+  background-color: purple;
+}
+
+.dashboard-logo{
+  padding: 30px 60px;
+  font-size: 30px;
+}
