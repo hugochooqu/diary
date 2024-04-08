@@ -23,7 +23,7 @@ const SignIn = () => {
 const handleSignInWithGoogle = () =>{
     SignInWithGoogle(() => {
 
-        navigate(`/dashboard?email=${user.displayName}`)
+        navigate(`/dashboard?email=${user.displayName}&id=${user.uid}`)
     })
 }
 

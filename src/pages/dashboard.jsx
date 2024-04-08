@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+import AddEntryForm from "../components/AddEntryForm";
 
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
   const [activeLink, setActiveLink] = useState('')
-  const [userName, setUserName] = useState(undefined)
+  const [userName, setUserName] = useState(null)
+  const [userId, setUserId] = useState(null)
+
+ 
   
 
   useEffect(() => {
@@ -11,6 +15,7 @@ const Dashboard = () => {
     const params = new URLSearchParams(urlSearchString)
 
     setUserName(params.get('email'))
+    setUserId(params.get('id'))
     console.log(userName)
   })
   
@@ -51,6 +56,7 @@ const Dashboard = () => {
       <span>
         Dark mode <input type="checkbox" onClick={toggleTheme} />
       </span>
+      {activeLink === 'notes'? <AddEntryForm userId={userId}/> : null}
     </div>
   );
 };

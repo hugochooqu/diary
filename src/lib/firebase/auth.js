@@ -1,6 +1,9 @@
 import { initializeApp } from "@firebase/app";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "@firebase/auth";
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from "@firebase/auth";
 import { redirect, useNavigate } from "react-router-dom";
+import { getDatabase} from '@firebase/database'
+import { useEffect, useState } from "react";
+import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDqeHvPqQo02FgOJfP4J6qoDSyLQvhLDb4",
@@ -14,6 +17,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const database = getDatabase(app)
+
+export const db = getFirestore(app)
 
 const auth = getAuth(app);
 
@@ -34,4 +40,7 @@ const SignInWithGoogle = async (redirectCallback) => {
   return;
 };
 
+
+
 export default SignInWithGoogle;
+
