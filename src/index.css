@@ -143,13 +143,20 @@ button {
   flex-direction: row;
 }
 
+.dashboard-main{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80vw;
+}
+
 .dark {
   background-color: rgb(32, 32, 32);
   color: white;
 }
 
 .light {
-  background-color: white;
+  background-color: rgb(236, 226, 226);
   color: rgb(34, 33, 33);
 }
 
@@ -199,3 +206,34 @@ button {
   padding: 30px 60px;
   font-size: 30px;
 }
+
+.add-entry{
+  width: 40%;
+  height: 70vh;
+  margin: 2% auto;
+  background-color: #292727;
+  border: solid 0px;
+  border-radius: 10px;
+}
+
+.add-entry form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.add-entry input, textarea{
+  background-color: transparent;
+  border-top: 0px;
+  border-left: 0px;
+  border-width: 0px;
+  border-bottom: solid 1px white;
+}
+
+.add-entry textarea{
+  height: 40vh;
+  resize: none;
+}
+
+

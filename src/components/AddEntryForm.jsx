@@ -1,17 +1,43 @@
 import React, { useState } from "react";
-import { db } from "../lib/firebase/auth";
+import forge from 'node-forge'
+import { db, useAuth } from "../lib/firebase/auth";
 import { getDatabase, ref, set } from "@firebase/database";
 import { addDoc, collection , serverTimestamp } from "@firebase/firestore";
 
-const AddEntryForm = (userId) => {
+const AddEntryForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-//   const db = getDatabase()
+  const currentUser = useAuth();
+  const userId = currentUser?.uid;
+  console.log(userId)
+
+  const key = forge.random.getBytesSync(32)
+  const iv = forge.random.getBytesSync(16)
+  const cipher = forge.cipher.createCipher('AES-CBC', key);
+  cipher.start({iv})
+  cipher.update(forge.util.createBuffer(content, 'utf8'))
+  cipher.finish();
+  const encryptedData = cipher.output.getBytes()
+
+    // const subtleCrypto = window.crypto.subtle;
+    // const key = await subtleCrypto.generateKey(
+    //     {name: 'AES-GCM', length: 256},
+    //     true,
+    //     ['encrypt', 'decrypt']
+    // );
+    // const encryptedData = await subtleCrypto.encrypt(
+    //     {name: 'AES-GCM'},
+    //     key,
+    //     'Hello World'
+    // )
+
+    // console.log(encryptedData)
+
+  //   const db = getDatabase()
 //   console.log(db)
 
   console.log(userId);
-  const uid = userId;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,9 +51,10 @@ const AddEntryForm = (userId) => {
       const collectionRef = collection(db, "Entries");
       const entryData = {
         title,
-        content,
+        encryptedData,
         time: serverTimestamp(),
-        uid,
+        userId
+        
       };
       await addDoc(collectionRef, entryData);
       console.log('okay')
@@ -41,7 +68,6 @@ const AddEntryForm = (userId) => {
     setTitle("");
     setContent("");
     console.log(title);
-    console.log(content);
 
     // const db = getDatabase();
     // set(ref(db, '/entries'), {
@@ -58,6 +84,7 @@ const AddEntryForm = (userId) => {
   };
 
   return (
+    <div className="add-entry">
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -70,9 +97,11 @@ const AddEntryForm = (userId) => {
         value={content}
         onChange={handleChange}
         name="content"
+        placeholder="Content"
       ></textarea>
       <button type="submit">Submit</button>
     </form>
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { createContext } from "react";
+import UseFetch from "./components/useFetch";
 import Home from "./pages/home";
 import {
   Route,
@@ -13,18 +14,23 @@ import Dashboard from "./pages/dashboard";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-        <Route index element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/register" element={<Register />}/>
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route index element={<Home />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Route>
   )
 );
 
+export const stateContext = createContext();
+
 function App() {
+  const { data, loading, setLoading, currentUser } = UseFetch("Entries");
   return (
     <main>
-      <RouterProvider router={router} />
+      <stateContext.Provider value={{ data, loading, setLoading, currentUser }}>
+        <RouterProvider router={router} />
+      </stateContext.Provider>
     </main>
   );
 }

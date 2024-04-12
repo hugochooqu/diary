@@ -40,7 +40,16 @@ const SignInWithGoogle = async (redirectCallback) => {
   return;
 };
 
-
-
 export default SignInWithGoogle;
+
+export function useAuth() {
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    const account = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user)
+    })
+    return account
+  }, [])
+  return currentUser
+}
 

@@ -46,7 +46,7 @@ const handleSignInWithGoogle = () =>{
 
         const user = userCredential.user;
         if(user !== null) {
-            navigate(`/dashboard?=${user.displayName}`)
+            navigate(`/dashboard?email=${user.displayName}&id=${user.uid}`)
         } 
         console.log(user)
     } catch (err) {

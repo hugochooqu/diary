@@ -1,15 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { stateContext } from "../App";
 import AddEntryForm from "../components/AddEntryForm";
+// import { collection, query, where, getDocs } from "@firebase/firestore";
+import { db, useAuth } from "../lib/firebase/auth";
 
-const Dashboard = () => {
+const Dashboard =() => {
   const [theme, setTheme] = useState("light");
   const [activeLink, setActiveLink] = useState('')
   const [userName, setUserName] = useState(null)
   const [userId, setUserId] = useState(null)
-
+  const [userEntries, setUserEntries] = useState(null)
  
-  
+ const {data, loading} = useContext(stateContext)
+ console.log(data)
+// useEffect(()=>{
+//   const fetchUserEntries = async () => {
+//     try {
+//       const collectionRef = collection(db, 'Entries');
+//       console.log(userId)
+//       const userEntriesQuery = query(collectionRef, where('uid','==', userId))
+//       const querySnapshot = await getDocs(userEntriesQuery);
+//       console.log('Query', querySnapshot.docs)
+//       const entriesData = querySnapshot.docs.map((doc) => ({
+//         id: doc.id,
+//         ...doc.data()
+//       }));
+//       console.log(entriesData)
+//       // setUserEntries(entriesData)
+//       // console.log('User entries:', userEntries);
 
+//     } catch (err) {
+//       console.error('Error fetching user entries:', err)
+//     }
+//   };
+
+//   fetchUserEntries()
+// }, [])
+  
   useEffect(() => {
     const urlSearchString = window.location.search;
     const params = new URLSearchParams(urlSearchString)
@@ -17,6 +44,7 @@ const Dashboard = () => {
     setUserName(params.get('email'))
     setUserId(params.get('id'))
     console.log(userName)
+    console.log(userId)
   })
   
 
@@ -52,11 +80,14 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
+      <div className="dashboard-main">
       {userName? <p>{userName}</p> : <i>undefined</i>}
       <span>
         Dark mode <input type="checkbox" onClick={toggleTheme} />
       </span>
-      {activeLink === 'notes'? <AddEntryForm userId={userId}/> : null}
+      <div></div>
+      {activeLink === 'notes'? <AddEntryForm /> : null}
+      </div>
     </div>
   );
 };
