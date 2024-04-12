@@ -5,6 +5,7 @@ import AddEntryForm from "../components/AddEntryForm";
 import { db, useAuth } from "../lib/firebase/auth";
 import forge from 'node-forge'
 import Decrypt from "../components/decrypt";
+import { Link } from "react-router-dom";
 
 const Dashboard =() => {
   const [theme, setTheme] = useState("light");
@@ -92,10 +93,11 @@ const Dashboard =() => {
       <span>
         Dark mode <input type="checkbox" onClick={toggleTheme} />
       </span>
-      <div>{data.map((entry) => (
-        <div key={entry.id}>
+      <div className="entry-tiles">{data.map((entry) => (
+        <div className="entry-tile" key={entry.id}>
           <p>{entry.title}</p>
           <Decrypt encryptedData = {entry.encryptedData} decryptKey={entry.key} iv= {entry.iv}/>
+          <button><Link to={`/entry/${entry.id}`}>view</Link></button>
         </div>
       ))}</div>
       {activeLink === 'notes'? <AddEntryForm /> : null}

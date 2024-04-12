@@ -1,7 +1,11 @@
 import React from 'react'
 import forge from 'node-forge'
+import { useContext } from 'react'
+import { stateContext } from '../App'
 
 const Decrypt = (props) => {
+    const {expanded} = useContext(stateContext)
+
     const encryptedData = props.encryptedData
     const key = props.decryptKey;
     const iv = props.iv
@@ -12,7 +16,7 @@ const Decrypt = (props) => {
     decipher.finish()
     const decryptedData = decipher.output.toString('utf8')
   return (
-    <div>{decryptedData}</div>
+    <div>{!expanded? <i>{decryptedData.slice(0, 100)} </i> : <p>{decryptedData}</p>}</div>
   )
 }
 

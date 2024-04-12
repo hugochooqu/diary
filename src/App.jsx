@@ -10,6 +10,7 @@ import {
 import SignIn from "./pages/signIn";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
+import EntryDetails from "./pages/entryDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route path="/signin" element={<SignIn />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/entry/:id" element={<EntryDetails />} />
     </Route>
   )
 );
@@ -25,10 +27,10 @@ const router = createBrowserRouter(
 export const stateContext = createContext();
 
 function App() {
-  const { data, loading, setLoading, currentUser } = UseFetch("Entries");
+  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded } = UseFetch("Entries");
   return (
     <main>
-      <stateContext.Provider value={{ data, loading, setLoading, currentUser }}>
+      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded }}>
         <RouterProvider router={router} />
       </stateContext.Provider>
     </main>

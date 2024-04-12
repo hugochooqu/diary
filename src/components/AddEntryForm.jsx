@@ -39,6 +39,9 @@ const AddEntryForm = () => {
 
   console.log(userId);
 
+  const currentDate = new Date();
+const currentDateString = currentDate.toISOString().split('T')[0];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,7 +55,7 @@ const AddEntryForm = () => {
       const entryData = {
         title,
         encryptedData,
-        time: serverTimestamp(),
+        currentDateString,
         userId,
         key,
         iv

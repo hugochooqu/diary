@@ -6,7 +6,11 @@ import { useAuth } from "../lib/firebase/auth";
 function UseFetch(collectionName) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [expanded, setExpanded] = useState(false)
 
+  const handleToggleExpanded = () => {
+    setExpanded(!expanded)
+  }
   const currentUser = useAuth();
 
   useEffect(() => {
@@ -34,7 +38,7 @@ function UseFetch(collectionName) {
   }, [collectionName, currentUser]);
 
 
-  return { data, loading, setLoading, currentUser };
+  return { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded };
 }
 
 export default UseFetch;
