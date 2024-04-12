@@ -53,7 +53,9 @@ const AddEntryForm = () => {
         title,
         encryptedData,
         time: serverTimestamp(),
-        userId
+        userId,
+        key,
+        iv
         
       };
       await addDoc(collectionRef, entryData);

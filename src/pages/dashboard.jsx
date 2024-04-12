@@ -3,13 +3,16 @@ import { stateContext } from "../App";
 import AddEntryForm from "../components/AddEntryForm";
 // import { collection, query, where, getDocs } from "@firebase/firestore";
 import { db, useAuth } from "../lib/firebase/auth";
+import forge from 'node-forge'
+import Decrypt from "../components/decrypt";
 
 const Dashboard =() => {
   const [theme, setTheme] = useState("light");
   const [activeLink, setActiveLink] = useState('')
   const [userName, setUserName] = useState(null)
   const [userId, setUserId] = useState(null)
-  const [userEntries, setUserEntries] = useState(null)
+  const [userEntries, setUserEntries] = useState(null);
+  const [encrypted, setEncrypted] = useState('')
  
  const {data, loading} = useContext(stateContext)
  console.log(data)
@@ -67,6 +70,10 @@ const Dashboard =() => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  // const decipherData = (encryptedData) => {
+  //   const decipher = forge.cipher.createDecipher('AES-CBC', )
+  // }
+
   return (
     <div className={`dashboard ${theme}`}>
       <div className="dashboard-sidebar">
@@ -85,7 +92,12 @@ const Dashboard =() => {
       <span>
         Dark mode <input type="checkbox" onClick={toggleTheme} />
       </span>
-      <div></div>
+      <div>{data.map((entry) => (
+        <div key={entry.id}>
+          <p>{entry.title}</p>
+          <Decrypt encryptedData = {entry.encryptedData} decryptKey={entry.key} iv= {entry.iv}/>
+        </div>
+      ))}</div>
       {activeLink === 'notes'? <AddEntryForm /> : null}
       </div>
     </div>

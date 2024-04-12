@@ -20,19 +20,19 @@ function UseFetch(collectionName) {
             id: doc.id,
           }));
           const filteredData = newData.filter((data) => data.userId === currentUser?.uid);
-          console.log(filteredData)
+          
+          setData(filteredData)
           setLoading(false);
 
         } catch (error) {
           console(error);
           setLoading(false);
         }
-
-        console.log(data);
       }
     );
     return () => unsubscribe()
   }, [collectionName, currentUser]);
+
 
   return { data, loading, setLoading, currentUser };
 }
