@@ -63,6 +63,7 @@ const currentDateString = currentDate.toISOString().split('T')[0];
       };
       await addDoc(collectionRef, entryData);
       console.log('okay')
+      window.location.reload()
     } catch (err) {
       console.log(err);
     }

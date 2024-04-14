@@ -149,6 +149,12 @@ button {
   gap: 20px;
   width: 80vw;
 }
+.dashboard-main-main{
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding-left: 70px;
+}
 
 .dark {
   background-color: rgb(32, 32, 32);
@@ -229,6 +235,12 @@ button {
   border-left: 0px;
   border-width: 0px;
   border-bottom: solid 1px white;
+  outline: none;
+  color: white;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  text-transform: capitalize;
+  
 }
 
 .add-entry textarea{
@@ -251,7 +263,7 @@ button {
   margin: 0.5rem;
   background-color: purple;
   /* height: fit-content; */
-  height: 25vh;
+  height: 30vh;
   padding: 5px;
   color: white;
   border-radius: 10px;
@@ -266,7 +278,7 @@ button {
 .entry-detail{
   position: relative;
   top: 60px;
-  width: 40%;
+  width: 30%;
   margin: auto auto;
   height: 70%;
   border: solid 1px teal;
@@ -275,6 +287,12 @@ button {
   scrollbar-width: none;
   background-color: #292727;
   color: white;
+}
+
+.entry-detail h1{
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(14, 238, 238);
 }
 
 .entry-detail p{

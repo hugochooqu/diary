@@ -6,10 +6,11 @@ import { db, useAuth } from "../lib/firebase/auth";
 import forge from 'node-forge'
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
+import { deleteDoc, doc } from "@firebase/firestore";
 
 const Dashboard =() => {
   const [theme, setTheme] = useState("light");
-  const [activeLink, setActiveLink] = useState('')
+  const [activeLink, setActiveLink] = useState('home')
   const [userName, setUserName] = useState(null)
   const [userId, setUserId] = useState(null)
   const [userEntries, setUserEntries] = useState(null);
@@ -71,6 +72,20 @@ const Dashboard =() => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+
+ 
+    const handleDelete =async (id)=> {
+      console.log(id)
+      try {
+        await deleteDoc(doc(db, "Entries", id))
+        // window.location.reload()
+      } catch (error) {
+        console.log('an error occured',error)
+      }
+    }
+
+  
+
   // const decipherData = (encryptedData) => {
   //   const decipher = forge.cipher.createDecipher('AES-CBC', )
   // }
@@ -93,14 +108,18 @@ const Dashboard =() => {
       <span>
         Dark mode <input type="checkbox" onClick={toggleTheme} />
       </span>
-      <div className="entry-tiles">{data.map((entry) => (
+      {loading? <p>Loading...</p>: <div className="dashboard-main-main">
+      {activeLink === 'home' ? <div className="entry-tiles">{data.map((entry) => (
         <div className="entry-tile" key={entry.id}>
           <p>{entry.title}</p>
           <Decrypt encryptedData = {entry.encryptedData} decryptKey={entry.key} iv= {entry.iv}/>
-          <button><Link to={`/entry/${entry.id}`}>view</Link></button>
+          <button><Link to={`/entry/${'view'}/${entry.id}`}>view</Link></button>
+          <button><Link to={`/entry/${'edit'}/${entry.id}`}>Edit</Link></button>
+          <button onClick={() => handleDelete(entry.id)}>Delete</button>
         </div>
-      ))}</div>
-      {activeLink === 'notes'? <AddEntryForm /> : null}
+      ))}</div> : null} 
+      
+      {activeLink === 'notes'? <AddEntryForm /> : null} </div>}
       </div>
     </div>
   );
