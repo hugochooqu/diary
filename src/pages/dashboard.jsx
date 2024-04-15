@@ -112,12 +112,14 @@ const Dashboard = () => {
             >
               Add Notes
             </li>
-            <li
-              className={activeLink === "home" ? "active" : "inactive"}
-              onClick={() => handleLinkClink("home")}
-            >
-              View all entries
-            </li>
+            <Link to='/entries' style={{textDecoration:'none', color:'black'}}>
+              <li
+                className={activeLink === "home" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("home")}
+              >
+                View all entries
+              </li>
+            </Link>
 
             {/* <li
               className={activeLink === "settings" ? "active" : "inactive"}
@@ -153,7 +155,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="dashboard-main">
-        <div className="header">
+        <div className="dashboard-header">
           {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
           <span>
             Dark mode <input type="checkbox" onClick={toggleTheme} />
@@ -162,36 +164,6 @@ const Dashboard = () => {
         </div>
 
         {loading ? <p>Loading...</p> : <AddEntryForm />}
-        {/* {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div className="dashboard-main-main">
-            {activeLink === "home" ? (
-              <div className="entry-tiles">
-                {data.map((entry) => (
-                  <div className="entry-tile" key={entry.id}>
-                    <p>{entry.title}</p>
-                    <Decrypt
-                      encryptedData={entry.encryptedData}
-                      decryptKey={entry.key}
-                      iv={entry.iv}
-                    />
-                    <button>
-                      <Link to={`/entry/${"view"}/${entry.id}`}>view</Link>
-                    </button>
-                    <button>
-                      <Link to={`/entry/${"edit"}/${entry.id}`}>Edit</Link>
-                    </button>
-                    <button onClick={() => handleDelete(entry.id)}>
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-            {activeLink === "notes" ? <AddEntryForm /> : null}{" "}
-          </div>
-        )} */}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import SignIn from "./pages/signIn";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
 import EntryDetails from "./pages/entryDetails";
+import Entry from "./pages/entry";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="/signin" element={<SignIn />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path='/entries' element={<Entry />} />
       <Route path="/entry/:crud/:id" element={<EntryDetails />} />
     </Route>
   )
