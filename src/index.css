@@ -39,6 +39,8 @@ button {
 .header {
   box-shadow: 0px 0px 10px #999;
   display: flex;
+  height: 10vh;
+  width: 80vw;
 }
 
 .header ul {
@@ -58,6 +60,14 @@ button {
   top: 15px;
   left: 700px;
   text-decoration: none;
+}
+
+.header h1{
+  text-align: center;
+  font-size: larger;
+  width: 100px;
+  margin: auto;
+  color: rgb(35, 202, 202);
 }
 
 .title {
@@ -170,6 +180,8 @@ button {
   width: 20vw;
   height: 100vh;
   border-right: solid 1px grey;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-menu ul {
@@ -177,8 +189,35 @@ button {
   flex-direction: column;
   gap: 20px;
   padding: 0px;
-  position: absolute;
-  top: 130px;
+  position: relative;
+  top: 7px;
+}
+
+.recent-entries{
+  border-top: solid 1px ;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-entries h2{
+  color: rgb(35, 202, 202);
+  text-align: center;
+  font-size: large;
+  font-weight: 400;
+}
+
+.recent-entries p{
+  padding-left: 25px;
+  text-decoration: none;
+  color: #292727;
+  text-transform: capitalize;
+  
+}
+
+.recent-entries div{
+  height: 40px;
+  
 }
 
 .inactive {
@@ -195,7 +234,7 @@ button {
 }
 
 .active {
-  background-color: purple;
+  background-color: rgb(35, 202, 202);
   width: 18vw;
   height: 40px;
   list-style: none;
@@ -205,7 +244,7 @@ button {
 }
 
 .active:hover {
-  background-color: purple;
+  background-color: rgb(35, 202, 202);
 }
 
 .dashboard-logo{
@@ -261,7 +300,7 @@ button {
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
-  background-color: purple;
+  background-color: rgb(35, 202, 202);
   /* height: fit-content; */
   height: 30vh;
   padding: 5px;

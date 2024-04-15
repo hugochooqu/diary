@@ -3,59 +3,43 @@ import { stateContext } from "../App";
 import AddEntryForm from "../components/AddEntryForm";
 // import { collection, query, where, getDocs } from "@firebase/firestore";
 import { db, useAuth } from "../lib/firebase/auth";
-import forge from 'node-forge'
+import forge from "node-forge";
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
-import { deleteDoc, doc } from "@firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  orderBy,
+  query,
+  collection,
+  limit,
+  getDocs,
+} from "@firebase/firestore";
 
-const Dashboard =() => {
+const Dashboard = () => {
   const [theme, setTheme] = useState("light");
-  const [activeLink, setActiveLink] = useState('home')
-  const [userName, setUserName] = useState(null)
-  const [userId, setUserId] = useState(null)
-  const [userEntries, setUserEntries] = useState(null);
-  const [encrypted, setEncrypted] = useState('')
- 
- const {data, loading} = useContext(stateContext)
- console.log(data)
-// useEffect(()=>{
-//   const fetchUserEntries = async () => {
-//     try {
-//       const collectionRef = collection(db, 'Entries');
-//       console.log(userId)
-//       const userEntriesQuery = query(collectionRef, where('uid','==', userId))
-//       const querySnapshot = await getDocs(userEntriesQuery);
-//       console.log('Query', querySnapshot.docs)
-//       const entriesData = querySnapshot.docs.map((doc) => ({
-//         id: doc.id,
-//         ...doc.data()
-//       }));
-//       console.log(entriesData)
-//       // setUserEntries(entriesData)
-//       // console.log('User entries:', userEntries);
+  const [activeLink, setActiveLink] = useState("home");
+  const [userName, setUserName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [recentEntries, setRecentEntries] = useState("");
+  const [encrypted, setEncrypted] = useState("");
 
-//     } catch (err) {
-//       console.error('Error fetching user entries:', err)
-//     }
-//   };
+  const { data, loading } = useContext(stateContext);
+  console.log(data);
 
-//   fetchUserEntries()
-// }, [])
-  
   useEffect(() => {
     const urlSearchString = window.location.search;
-    const params = new URLSearchParams(urlSearchString)
+    const params = new URLSearchParams(urlSearchString);
 
-    setUserName(params.get('email'))
-    setUserId(params.get('id'))
-    console.log(userName)
-    console.log(userId)
-  })
-  
+    setUserName(params.get("email"));
+    setUserId(params.get("id"));
+    console.log(userName);
+    console.log(userId);
+  });
 
   const handleLinkClink = (link) => {
-    setActiveLink(link)
-  } 
+    setActiveLink(link);
+  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -72,54 +56,142 @@ const Dashboard =() => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-
- 
-    const handleDelete =async (id)=> {
-      console.log(id)
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    console.log(id);
+    if (confirmDelete) {
       try {
-        await deleteDoc(doc(db, "Entries", id))
+        await deleteDoc(doc(db, "Entries", id));
         // window.location.reload()
       } catch (error) {
-        console.log('an error occured',error)
+        console.log("an error occured", error);
       }
     }
+  };
 
-  
+  useEffect(() => {
+    const getRecentEntries = async () => {
+      try {
+        const q = query(
+          collection(db, "Entries"),
+          orderBy("currentDateString", "desc"),
+          limit(3)
+        );
 
-  // const decipherData = (encryptedData) => {
-  //   const decipher = forge.cipher.createDecipher('AES-CBC', )
-  // }
+        const docSnap = await getDocs(q);
+        const recentEntries = [];
+
+        docSnap.forEach((doc) => {
+          recentEntries.push({ id: doc.id, ...doc.data() });
+        });
+
+        if (recentEntries.length > 0) {
+          setRecentEntries(recentEntries);
+        } else {
+          console.log("No recent entries found!");
+        }
+      } catch (error) {
+        console.error("Error getting recent entries:", error);
+      }
+    };
+
+    getRecentEntries();
+  }, []);
+  console.log(recentEntries);
 
   return (
     <div className={`dashboard ${theme}`}>
       <div className="dashboard-sidebar">
-        <p className="dashboard-logo">write</p>
+        <p style={{ padding: "30px" }}>Hello, {userName}</p>
+        {/* <p className="dashboard-logo">write</p> */}
         <div className="sidebar-menu">
-          <ul >
-            <li className={activeLink === 'home' ? 'active' : 'inactive'} onClick={() => handleLinkClink('home')}>Home</li>
-            <li className={activeLink === 'notes' ? 'active' : 'inactive'} onClick={() => handleLinkClink('notes')}>Notes</li>
-            <li className={activeLink === 'settings' ? 'active' : 'inactive'} onClick={() => handleLinkClink('settings')}>Settings</li>
-            <li className={activeLink === 'logout' ? 'active' : 'inactive'} onClick={() => handleLinkClink('logout')}>Logout</li>
+          <ul>
+            <li
+              className={activeLink === "notes" ? "active" : "inactive"}
+              onClick={() => handleLinkClink("notes")}
+            >
+              Add Notes
+            </li>
+            <li
+              className={activeLink === "home" ? "active" : "inactive"}
+              onClick={() => handleLinkClink("home")}
+            >
+              View all entries
+            </li>
+
+            {/* <li
+              className={activeLink === "settings" ? "active" : "inactive"}
+              onClick={() => handleLinkClink("settings")}
+            >
+              Settings
+            </li>
+            <li
+              className={activeLink === "logout" ? "active" : "inactive"}
+              onClick={() => handleLinkClink("logout")}
+            >
+              Logout
+            </li> */}
           </ul>
+        </div>
+        <div className="recent-entries">
+          <h2>Recent Entries</h2>
+
+          {recentEntries && recentEntries.length > 0 ? (
+            recentEntries.map((entry) => (
+              <div>
+                <Link
+                  to={`/entry/${"view"}/${entry.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <p>{entry.title.slice(0, 20)}...</p>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <li>No recent entries found</li>
+          )}
         </div>
       </div>
       <div className="dashboard-main">
-      {userName? <p>{userName}</p> : <i>undefined</i>}
-      <span>
-        Dark mode <input type="checkbox" onClick={toggleTheme} />
-      </span>
-      {loading? <p>Loading...</p>: <div className="dashboard-main-main">
-      {activeLink === 'home' ? <div className="entry-tiles">{data.map((entry) => (
-        <div className="entry-tile" key={entry.id}>
-          <p>{entry.title}</p>
-          <Decrypt encryptedData = {entry.encryptedData} decryptKey={entry.key} iv= {entry.iv}/>
-          <button><Link to={`/entry/${'view'}/${entry.id}`}>view</Link></button>
-          <button><Link to={`/entry/${'edit'}/${entry.id}`}>Edit</Link></button>
-          <button onClick={() => handleDelete(entry.id)}>Delete</button>
+        <div className="header">
+          {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
+          <span>
+            Dark mode <input type="checkbox" onClick={toggleTheme} />
+          </span> */}
+          <h1>DEE YA</h1>
         </div>
-      ))}</div> : null} 
-      
-      {activeLink === 'notes'? <AddEntryForm /> : null} </div>}
+
+        {loading ? <p>Loading...</p> : <AddEntryForm />}
+        {/* {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="dashboard-main-main">
+            {activeLink === "home" ? (
+              <div className="entry-tiles">
+                {data.map((entry) => (
+                  <div className="entry-tile" key={entry.id}>
+                    <p>{entry.title}</p>
+                    <Decrypt
+                      encryptedData={entry.encryptedData}
+                      decryptKey={entry.key}
+                      iv={entry.iv}
+                    />
+                    <button>
+                      <Link to={`/entry/${"view"}/${entry.id}`}>view</Link>
+                    </button>
+                    <button>
+                      <Link to={`/entry/${"edit"}/${entry.id}`}>Edit</Link>
+                    </button>
+                    <button onClick={() => handleDelete(entry.id)}>
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {activeLink === "notes" ? <AddEntryForm /> : null}{" "}
+          </div>
+        )} */}
       </div>
     </div>
   );
