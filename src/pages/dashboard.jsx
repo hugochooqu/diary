@@ -18,7 +18,7 @@ import {
 
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
-  const [activeLink, setActiveLink] = useState("home");
+  const [activeLink, setActiveLink] = useState("notes");
   const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
   const [recentEntries, setRecentEntries] = useState("");
