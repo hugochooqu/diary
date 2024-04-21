@@ -4,6 +4,7 @@ import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
 import { db, useAuth } from "../lib/firebase/auth";
 import { deleteDoc, doc } from "@firebase/firestore";
+import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 
 const Entry = () => {
   const { loading, data } = useContext(stateContext);
@@ -27,18 +28,18 @@ const Entry = () => {
 
   return (
     <div className="entries">
-        <div className="dashboard-header" style={{width:'100vw'}}>
-          {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
+      <div className="dashboard-header" style={{ width: "100vw" }}>
+        {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
           <span>
             Dark mode <input type="checkbox" onClick={toggleTheme} />
           </span> */}
-          <h1>DEE YA</h1>
-        </div>
+        <h1>DEE YA</h1>
+      </div>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="dashboard-main-main" style={{margin:'auto'}}>
+        <div className="dashboard-main-main" style={{ margin: "auto" }}>
           <div className="entry-tiles">
             {data.map((entry) => (
               <div className="entry-tile" key={entry.id}>
@@ -48,13 +49,9 @@ const Entry = () => {
                   decryptKey={entry.key}
                   iv={entry.iv}
                 />
-                <button>
-                  <Link to={`/entry/${"view"}/${entry.id}`}>view</Link>
-                </button>
-                <button>
-                  <Link to={`/entry/${"edit"}/${entry.id}`}>Edit</Link>
-                </button>
-                <button onClick={() => handleDelete(entry.id)}>Delete</button>
+                  <Link to={`/entry/${"view"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaEye /></Link>
+                  <Link to={`/entry/${"edit"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaPen /></Link>
+                  <FaTrash onClick={() => handleDelete(entry.id)} />
               </div>
             ))}
           </div>
