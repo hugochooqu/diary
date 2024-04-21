@@ -1,6 +1,12 @@
-import { collection, doc, getDoc, onSnapshot, updateDoc } from "@firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "@firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { db } from "../lib/firebase/auth";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
@@ -10,8 +16,15 @@ import Crypto from "crypto-js";
 const EntryDetails = () => {
   const { crud, id } = useParams();
   const [entryData, setEntryData] = useState(null);
-  const [formData, setFormData] = useState({ title: "", content: "" });
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    image: "",
+  });
   const { setLoading, loading } = useContext(stateContext);
+
+  const location = useLocation();
+  const url = window.location.origin + location.pathname;
 
   useEffect(() => {
     setLoading(true);
@@ -24,7 +37,7 @@ const EntryDetails = () => {
         if (docSnap.exists()) {
           const entry = { ...docSnap.data(), id: docSnap.id };
           setEntryData(entry);
-          setFormData({ title: entry.title });
+          setFormData({ title: entry.title, image: entry.imageURL });
         } else {
           console.log("Document not found");
         }
@@ -38,7 +51,7 @@ const EntryDetails = () => {
     fetchDocument();
   }, []);
 
-  console.log(formData.title);
+  console.log(formData.image);
 
   console.log(entryData);
   if (entryData !== null && entryData.key !== undefined) {
@@ -46,6 +59,7 @@ const EntryDetails = () => {
     var encryptedData = entryData.encryptedData;
     var key = entryData.key;
     var iv = entryData?.iv;
+    var image = entryData.imageURL;
     // Perform decryption here
     const decipher = forge.cipher.createDecipher("AES-CBC", key);
     decipher.start({ iv: iv });
@@ -58,13 +72,12 @@ const EntryDetails = () => {
   }
 
   if (entryData !== null && entryData.key !== undefined) {
-
     // Perform decryption here
-    const cipher = forge.cipher.createCipher('AES-CBC', key);
-    cipher.start({iv})
-    cipher.update(forge.util.createBuffer(formData.content, 'utf8'))
+    const cipher = forge.cipher.createCipher("AES-CBC", key);
+    cipher.start({ iv });
+    cipher.update(forge.util.createBuffer(formData.content, "utf8"));
     cipher.finish();
-    var encryptedEditData = cipher.output.getBytes()
+    var encryptedEditData = cipher.output.getBytes();
   } else {
     // Key is not available yet, so wait until it becomes available
     console.log("Key is not available yet. Waiting...");
@@ -84,9 +97,9 @@ const EntryDetails = () => {
         title: formData.title,
         encryptedData: encryptedEditData,
         iv,
-        key
+        key,
       });
-      window.location.reload()
+      window.location.reload();
       console.log("Document successfully updated!");
       // Optionally, redirect the user to another page after successful update
     } catch (error) {
@@ -94,11 +107,24 @@ const EntryDetails = () => {
     }
   };
 
+  const shareOnFacebook = () => {
+    window.FB.ui(
+      {
+        method: "share",
+        href: url,
+        quote: formData.title,
+      },
+      (response) => console.log(response)
+    );
+  };
   return (
     <div style={{ width: "100vw", height: "100vh", backgroundColor: "white" }}>
       {crud === "view" ? (
         <div className="entry-detail">
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
+          <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
+            <img src={image} alt="ima" />
+          </div>
           <p>{decryptedData}</p>
         </div>
       ) : null}

@@ -23,7 +23,7 @@ const SignIn = () => {
 const handleSignInWithGoogle = () =>{
     SignInWithGoogle(() => {
 
-        navigate(`/dashboard?email=${user.displayName}&id=${user.uid}`)
+        navigate(`/dashboard`)
     })
 }
 
@@ -46,7 +46,7 @@ const handleSignInWithGoogle = () =>{
 
         const user = userCredential.user;
         if(user !== null) {
-            navigate(`/dashboard?email=${user.displayName}&id=${user.uid}`)
+            navigate(`/dashboard`)
         } 
         console.log(user)
     } catch (err) {

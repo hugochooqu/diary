@@ -15,6 +15,7 @@ import {
   limit,
   getDocs,
 } from "@firebase/firestore";
+import { FaCog, FaEye, FaLightbulb } from "react-icons/fa";
 
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
@@ -22,17 +23,22 @@ const Dashboard = () => {
   const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
   const [recentEntries, setRecentEntries] = useState("");
-  const [encrypted, setEncrypted] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data, loading } = useContext(stateContext);
-  console.log(data);
+  // console.log(data);
+
+  const currentUser = useAuth();
+  const uid = currentUser?.uid;
+  console.log(uid);
+  console.log(currentUser);
 
   useEffect(() => {
     const urlSearchString = window.location.search;
     const params = new URLSearchParams(urlSearchString);
 
     setUserName(params.get("email"));
-    setUserId(params.get("id"));
+    // setUserId(params.get("id"));
     console.log(userName);
     console.log(userId);
   });
@@ -69,40 +75,53 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {
-    const getRecentEntries = async () => {
-      try {
-        const q = query(
-          collection(db, "Entries"),
-          orderBy("currentDateString", "desc"),
-          limit(3)
-        );
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
-        const docSnap = await getDocs(q);
-        const recentEntries = [];
+  const handleOptionSelect = () => {
+    setIsOpen(false);
+  };
 
-        docSnap.forEach((doc) => {
-          recentEntries.push({ id: doc.id, ...doc.data() });
-        });
+  // useEffect(() => {
+  //     const getRecentEntries = async () => {
+  //       try {
+  //         const q = query(
+  //           collection(db, "Entries"),
+  //           orderBy("currentDateString", "desc"),
+  //           limit(3)
+  //         );
 
-        if (recentEntries.length > 0) {
-          setRecentEntries(recentEntries);
-        } else {
-          console.log("No recent entries found!");
-        }
-      } catch (error) {
-        console.error("Error getting recent entries:", error);
-      }
-    };
+  //         const docSnap = await getDocs(q);
+  //         const recentEntries = [];
 
-    getRecentEntries();
-  }, []);
-  console.log(recentEntries);
+  //         docSnap.forEach((doc) => {
+  //           const data = doc.data();
+  //           console.log(data.userId)
+
+  //           if (data.userId === uid) {
+  //           recentEntries.push({ id: doc.id, ...doc.data() });}
+  //         });
+
+  //         if (recentEntries.length > 0) {
+  //           setRecentEntries(recentEntries);
+  //         } else {
+  //           console.log("No recent entries found!");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error getting recent entries:", error);
+  //       }
+  //     };
+
+  //     getRecentEntries();
+
+  // }, []);
+  // console.log(recentEntries);
 
   return (
     <div className={`dashboard ${theme}`}>
       <div className="dashboard-sidebar">
-        <p style={{ padding: "30px" }}>Hello, {userName}</p>
+        <p style={{ padding: "30px" }}>Hello, {currentUser?.displayName || 'user'}</p>
         {/* <p className="dashboard-logo">write</p> */}
         <div className="sidebar-menu">
           <ul>
@@ -110,14 +129,18 @@ const Dashboard = () => {
               className={activeLink === "notes" ? "active" : "inactive"}
               onClick={() => handleLinkClink("notes")}
             >
-              Add Notes
+              <FaLightbulb />
+              {' '}{' '}Add Notes
             </li>
-            <Link to='/entries' style={{textDecoration:'none', color:'black'}}>
+            <Link
+              to="/entries"
+              style={{ textDecoration: "none", color: theme === "light" ? "black" : "white" }}
+            >
               <li
                 className={activeLink === "home" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("home")}
               >
-                View all entries
+               <FaEye /> {' '}{' '}View all entries
               </li>
             </Link>
 
@@ -157,10 +180,26 @@ const Dashboard = () => {
       <div className="dashboard-main">
         <div className="dashboard-header">
           {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
-          <span>
-            Dark mode <input type="checkbox" onClick={toggleTheme} />
-          </span> */}
+           */}
           <h1>DEE YA</h1>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <FaCog style={{padding: '20px 0px', cursor: 'pointer'}} size={25} onClick={toggleDropdown}/>
+          <img
+            src={currentUser?.photoURL}
+            alt="pics"
+            className="photo"
+            
+          /></div>
+          {isOpen && (
+            <ul className={`dropdown-menu ${theme}` }>
+              <li onClick={handleOptionSelect}>
+                <span>
+                  Dark mode <input type="checkbox" onClick={toggleTheme} />
+                </span>
+              </li>
+              <li>Logout</li>
+            </ul>
+          )}
         </div>
 
         {loading ? <p>Loading...</p> : <AddEntryForm />}

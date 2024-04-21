@@ -352,4 +352,25 @@ button {
   height: 100vh;
 }
 
+.photo{
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  padding: 15px 50px;
+}
+
+.dropdown-menu{
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  list-style: none;
+  right: 100px;
+  top: 50px;
+  height: 80px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
