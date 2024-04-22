@@ -84,7 +84,7 @@ button {
 
 .title h1{
   color: white;
-  -webkit-text-stroke-color: pink;
+  -webkit-text-stroke-color: rgb(212, 14, 146);
   -webkit-text-stroke-width: 2px;
 }
 
@@ -129,6 +129,7 @@ button {
 
 .signin-box h1 {
   color: rgb(35, 202, 202);
+  letter-spacing: -1px;
 }
 .signin-box input {
   height: 40px;
