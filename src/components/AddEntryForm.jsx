@@ -9,7 +9,7 @@ import { getStorage, uploadBytes, ref, getDownloadURL } from "@firebase/storage"
 const AddEntryForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { db, useAuth } from "../lib/firebase/auth";
 import { deleteDoc, doc } from "@firebase/firestore";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import {Tooltip} from 'react-tooltip'
 
 const Entry = () => {
   const { loading, data } = useContext(stateContext);
@@ -50,9 +51,14 @@ const Entry = () => {
                   decryptKey={entry.key}
                   iv={entry.iv}
                 />
-                  <Link to={`/entry/${"view"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaEye /></Link>
-                  <Link to={`/entry/${"edit"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaPen /></Link>
-                  <FaTrash onClick={() => handleDelete(entry.id)} />
+                <div style={{display: 'flex', flexDirection:'row', gap:'20px', position: 'relative', bottom:'-120px', left:'100px'}}>
+                  <Link to={`/entry/${"view"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaEye title="view" className="view" /></Link>
+                  <Tooltip anchorSelect=".view" >View</Tooltip>
+                  <Link to={`/entry/${"edit"}/${entry.id}`} style={{textDecoration: 'none', color:'black'}}><FaPen className="edit" /></Link>
+                  <Tooltip anchorSelect=".edit" >Edit</Tooltip>
+                  <FaTrash onClick={() => handleDelete(entry.id)} className="delete" />
+                  <Tooltip anchorSelect=".delete" >Delete</Tooltip>
+                </div>  
               </div>
             ))}
           </div>
