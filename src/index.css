@@ -78,9 +78,14 @@ button {
 
 .title {
   padding: 80px 60px;
-  color: black;
   font-size: 40px;
   width: 50vw;
+}
+
+.title h1{
+  color: white;
+  -webkit-text-stroke-color: pink;
+  -webkit-text-stroke-width: 2px;
 }
 
 /* .layout{
