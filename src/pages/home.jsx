@@ -7,8 +7,8 @@ const Home = () => {
       <div className='header'>
         <p className='logo'>Write</p>
         <ul>
-          <li><Link to='/signin' style={{textDecoration: 'none', color:'black'}}>Sign In</Link></li>
-          <li><Link to='/register' style={{textDecoration: 'none', color:'black'}}>Register</Link></li>
+          <li><Link to='/signin' style={{textDecoration: 'none', color:'white'}}>Sign In</Link></li>
+          <li><Link to='/register' style={{textDecoration: 'none', color:'white'}}>Register</Link></li>
         </ul>
       </div>
       <div className='title'>

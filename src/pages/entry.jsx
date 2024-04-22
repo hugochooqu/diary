@@ -40,6 +40,7 @@ const Entry = () => {
         <p>Loading...</p>
       ) : (
         <div className="dashboard-main-main" style={{ margin: "auto" }}>
+          {data.length === 0 && <p style={{margin:'auto', width:'40%'}}>Oops! No entry here. <Link to='/dashboard' style={{textDecoration:'none'}}>Write now</Link></p>}
           <div className="entry-tiles">
             {data.map((entry) => (
               <div className="entry-tile" key={entry.id}>
