@@ -29,10 +29,10 @@ const router = createBrowserRouter(
 export const stateContext = createContext();
 
 function App() {
-  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded } = UseFetch("Entries");
+  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate } = UseFetch("Entries");
   return (
     <main>
-      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded }}>
+      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate }}>
         <RouterProvider router={router} />
       </stateContext.Provider>
     </main>

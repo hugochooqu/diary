@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { stateContext } from "../App";
 import forge from "node-forge";
 import { db, useAuth } from "../lib/firebase/auth";
 import { getDatabase, set } from "@firebase/database";
 import { addDoc, collection, serverTimestamp } from "@firebase/firestore";
 import { FaImage } from "react-icons/fa";
-import { getStorage, uploadBytes, ref, getDownloadURL } from "@firebase/storage";
+import {
+  getStorage,
+  uploadBytes,
+  ref,
+  getDownloadURL,
+} from "@firebase/storage";
 
 const AddEntryForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
+
+  const { formattedDate } = useContext(stateContext);
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
@@ -36,12 +44,12 @@ const AddEntryForm = () => {
         throw new Error("Firestore instance 'db' is not initialized.");
       }
 
-      const storage = getStorage()
-      const storageRef = ref(storage, '/upload' + image.name)
-      await uploadBytes(storageRef, image)
+      const storage = getStorage();
+      const storageRef = ref(storage, "/upload" + image.name);
+      await uploadBytes(storageRef, image);
 
-      const downloadURL = await getDownloadURL(storageRef)
-      console.log(downloadURL)
+      const downloadURL = await getDownloadURL(storageRef);
+      console.log(downloadURL);
 
       const collectionRef = collection(db, "Entries");
       const entryData = {
@@ -51,7 +59,7 @@ const AddEntryForm = () => {
         userId,
         key,
         iv,
-        imageURL: downloadURL
+        imageURL: downloadURL,
       };
       await addDoc(collectionRef, entryData);
       console.log("okay");
@@ -72,7 +80,7 @@ const AddEntryForm = () => {
     if (name === "content") setContent(value);
   };
 
-  console.log(image)
+  console.log(image);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -81,8 +89,8 @@ const AddEntryForm = () => {
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
           const maxWidth = 300; // Set the maximum width
           const maxHeight = 300; // Set the maximum height
@@ -133,19 +141,28 @@ const AddEntryForm = () => {
           placeholder="Content"
         ></textarea>
         <div>
-            <label htmlFor="image-upload">
-                <FaImage style={{ color: "white" }} />
-            </label>
-            <input
-                type="file"
-                id="image-upload"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
+          <label htmlFor="image-upload">
+            <FaImage style={{ color: "white" }} />
+          </label>
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          {image && (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+              style={{ width: "50px" }}
             />
-            {image && <img src={URL.createObjectURL(image)} alt="Preview" style={{width: '50px'}}/>}
+          )}
         </div>
-        <button type="submit">Submit</button>
+        <div className="date">
+          <button type="submit">Done</button>
+          <p style={{color:'white'}}>{formattedDate}</p>
+        </div>
       </form>
     </div>
   );

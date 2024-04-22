@@ -181,7 +181,7 @@ button {
 }
 
 .dark {
-  background-color: rgb(32, 32, 32);
+  background-color: rgb(43, 40, 40);
   color: white;
 }
 
@@ -270,7 +270,7 @@ button {
   width: 40%;
   height: 70vh;
   margin: 2% auto;
-  background-color: #292727;
+  background-color: #1b1a1a;
   border: solid 0px;
   border-radius: 10px;
 }
@@ -381,3 +381,8 @@ button {
   gap: 20px;
 }
 
+.date{
+  display: flex;
+  flex-direction: row;
+  gap: 120px;
+}
