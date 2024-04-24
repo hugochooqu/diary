@@ -20,6 +20,26 @@ const Navigation = () => {
   const handleOptionSelect = () => {
     setIsOpen(false);
   };
+  useEffect(() => {
+    const urlSearchString = window.location.search;
+    const params = new URLSearchParams(urlSearchString);
+
+    const location = window.location.pathname
+    console.log(location)
+
+    if (location.includes('new')) {
+      setActiveLink('notes')
+    } else if(location.includes('favorites')){
+      setActiveLink('favorite')
+    } else if(location.includes('trash')) {
+      setActiveLink('trash')
+    } else if(location.includes('public')) {
+      setActiveLink('public')
+    }
+
+    // setUserId(params.get("id"));
+    
+  });
 
   return (
     <div className={`dashboard ${theme}`}>

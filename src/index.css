@@ -335,7 +335,7 @@ button {
 .entry-tile p{
   font-size: larger;
   text-transform: capitalize;
-  
+  text-align: center; 
 }
 
 .entry-detail{

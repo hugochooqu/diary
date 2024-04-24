@@ -108,6 +108,7 @@ const EntryDetails = () => {
     }
   };
 
+
   const shareOnFacebook = () => {
     window.FB.ui(
       {
@@ -124,7 +125,7 @@ const EntryDetails = () => {
         <div className="entry-detail" style={{height: '420px', width: '520px'}}>
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
-            <img src={image} alt="ima" />
+           {image === null && <img src={image} alt="ima" />} 
           </div>
           <p>{decryptedData}</p>
         </div>
