@@ -67,6 +67,19 @@ const Trash = () => {
       console.log(err);
     }
   };
+
+  const handleDeletePermanenetly = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete permanently?");
+    console.log(id);
+    if (confirmDelete) {
+      try {
+        await deleteDoc(doc(db, "Trash", id));
+        // window.location.reload()
+      } catch (error) {
+        console.log("an error occured", error);
+      }
+    }
+  };
   return (
     <div className="trash">
       {/* <FaTrash size={300} /> */}
@@ -76,9 +89,18 @@ const Trash = () => {
           <div className="trash-tile" key={entry.id}>
             <div>
               <h3>{entry.title}</h3>
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "20px",
+                  position: "relative",
+                  bottom: "-20px",
+                  left: "70px",
+                }}
+              >
                 <FaUndo onClick={() => restoreEntry(entry.id)} />
-                <FaTrash />
+                <FaTrash onClick={() => handleDeletePermanenetly(entry.id)}/>
               </div>
             </div>
           </div>
