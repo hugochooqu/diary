@@ -15,6 +15,8 @@ import Entry from "./pages/entry";
 import Trash from "./pages/trash";
 import Layout from "./components/layout";
 import AddEntryForm from "./components/AddEntryForm";
+import PublicDiaries from "./pages/PublicDiaries";
+import Favorites from "./pages/Favorites";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
       {
         path:'/dashboard/:crud/:id',
         element: <EntryDetails />
+      },
+      {
+        path:'/dashboard/public-diaries',
+        element: <PublicDiaries />
+      },
+      {
+        path:'favorites',
+        element: <Favorites />
       }
     ]
   }

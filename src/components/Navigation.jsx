@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { stateContext } from "../App";
 import { useAuth } from "../lib/firebase/auth";
-import { FaCog, FaHome, FaLightbulb, FaTrash } from "react-icons/fa";
+import { FaBars, FaCog, FaHeart, FaHome, FaLightbulb, FaTrash } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
 
 const Navigation = () => {
@@ -58,6 +58,20 @@ const Navigation = () => {
               </li>
             </Link>
             <Link
+              to="favorites"
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}
+            >
+              <li
+                className={activeLink === "favorite" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("favorite")}
+              >
+                <FaHeart /> Favorites
+              </li>
+            </Link>
+            <Link
               to="trash"
               style={{
                 textDecoration: "none",
@@ -70,6 +84,16 @@ const Navigation = () => {
               >
                 <FaTrash /> Trash
               </li>
+            </Link>
+            <Link to="public-diaries"
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}>
+            <li className={activeLink === "public" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("public")}>
+              <FaBars />  Public Diaries
+            </li>
             </Link>
 
             {/* <li

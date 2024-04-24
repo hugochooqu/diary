@@ -11,6 +11,7 @@ import {
   ref,
   getDownloadURL,
 } from "@firebase/storage";
+import {useNavigate } from 'react-router-dom'
 
 const AddEntryForm = () => {
   const [title, setTitle] = useState("");
@@ -22,6 +23,7 @@ const AddEntryForm = () => {
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
+  const navigate = useNavigate()
 
   const key = forge.random.getBytesSync(32);
   const iv = forge.random.getBytesSync(16);
@@ -63,7 +65,7 @@ const AddEntryForm = () => {
       };
       await addDoc(collectionRef, entryData);
       console.log("okay");
-      window.location.reload();
+      navigate('/dashboard')
     } catch (err) {
       console.log(err);
     }
