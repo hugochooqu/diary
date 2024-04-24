@@ -12,27 +12,68 @@ import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
 import EntryDetails from "./pages/entryDetails";
 import Entry from "./pages/entry";
+import Trash from "./pages/trash";
+import Layout from "./components/layout";
+import AddEntryForm from "./components/AddEntryForm";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route index element={<Home />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path='/entries' element={<Entry />} />
-      <Route path="/entry/:crud/:id" element={<EntryDetails />} />
-    </Route>
-  )
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <Home />
+  },
+  {
+    path:'/signin',
+    element: <SignIn />
+  },
+  {
+    path:'/register',
+    element: <Register />
+  },
+  {
+    path: '/dashboard',
+    element: <Layout />,
+    children: [
+      {
+        path:"/dashboard",
+        element: <Entry />
+      },
+      {
+        path:'/dashboard/new',
+        element: <AddEntryForm />
+      },
+      {
+        path:'/dashboard/trash',
+        element: <Trash />
+      },
+      {
+        path:'/dashboard/:crud/:id',
+        element: <EntryDetails />
+      }
+    ]
+  }
+]
+  // createRoutesFromElements(
+  //   <Route>
+  //     <Route index element={<Home />} />
+  //     <Route path="/signin" element={<SignIn />} />
+  //     <Route path="/register" element={<Register />} />
+  //     <Route path="/dashboard" element={<Layout />} children={[
+        
+  //     ]} />
+  //     <Route path='/entries' element={<Entry />} />
+  //     <Route path="/entry/:crud/:id" element={<EntryDetails />} />
+  //     <Route path="/trash" element={<Trash />} /> 
+  //   </Route>
+  // )
 );
 
 export const stateContext = createContext();
 
 function App() {
-  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate } = UseFetch("Entries");
+  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme } = UseFetch("Entries");
   return (
     <main>
-      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate }}>
+      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme }}>
         <RouterProvider router={router} />
       </stateContext.Provider>
     </main>

@@ -15,7 +15,7 @@ import {
   limit,
   getDocs,
 } from "@firebase/firestore";
-import { FaCog, FaEye, FaLightbulb } from "react-icons/fa";
+import { FaCog, FaEye, FaHome, FaLightbulb, FaTrash } from "react-icons/fa";
 
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
@@ -121,26 +121,42 @@ const Dashboard = () => {
   return (
     <div className={`dashboard ${theme}`}>
       <div className="dashboard-sidebar">
-        <p style={{ padding: "30px" }}>Hello, {currentUser?.displayName || 'user'}</p>
-        {/* <p className="dashboard-logo">write</p> */}
+        <p style={{ padding: "30px" }}>
+          Hello, {currentUser?.displayName || "user"}
+        </p>
         <div className="sidebar-menu">
           <ul>
+            <li
+              className={activeLink === "home" ? "active" : "inactive"}
+              onClick={() => handleLinkClink("home")}
+            >
+              <FaHome /> Home
+            </li>
             <li
               className={activeLink === "notes" ? "active" : "inactive"}
               onClick={() => handleLinkClink("notes")}
             >
-              <FaLightbulb />
-              {' '}{' '}Add Notes
+              <FaLightbulb /> Add Notes
             </li>
             <Link
               to="/entries"
-              style={{ textDecoration: "none", color: theme === "light" ? "black" : "white" }}
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}
+            ></Link>
+            <Link
+              to="/trash"
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}
             >
               <li
-                className={activeLink === "home" ? "active" : "inactive"}
-                onClick={() => handleLinkClink("home")}
+                className={activeLink === "trash" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("trash")}
               >
-               <FaEye /> {' '}{' '}View all entries
+                <FaTrash /> Trash
               </li>
             </Link>
 
@@ -182,16 +198,16 @@ const Dashboard = () => {
           {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
            */}
           <h1>DEE YA</h1>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <FaCog style={{padding: '20px 0px', cursor: 'pointer'}} size={25} onClick={toggleDropdown}/>
-          <img
-            src={currentUser?.photoURL}
-            alt="pics"
-            className="photo"
-            
-          /></div>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <FaCog
+              style={{ padding: "20px 0px", cursor: "pointer" }}
+              size={25}
+              onClick={toggleDropdown}
+            />
+            <img src={currentUser?.photoURL} alt="pics" className="photo" />
+          </div>
           {isOpen && (
-            <ul className={`dropdown-menu ${theme}` }>
+            <ul className={`dropdown-menu ${theme}`}>
               <li onClick={handleOptionSelect}>
                 <span>
                   Dark mode <input type="checkbox" onClick={toggleTheme} />

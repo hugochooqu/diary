@@ -7,6 +7,25 @@ function UseFetch(collectionName) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expanded, setExpanded] = useState(false)
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light")
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  
 
   const today = new Date();
   const daysOfTheWeekNumber = today.getDay()
@@ -49,7 +68,7 @@ function UseFetch(collectionName) {
   }, [collectionName, currentUser]);
 
 
-  return { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate };
+  return { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate, theme, setTheme, isOpen, setIsOpen, toggleTheme };
 }
 
 export default UseFetch;

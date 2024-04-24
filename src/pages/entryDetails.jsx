@@ -6,12 +6,13 @@ import {
   updateDoc,
 } from "@firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { db } from "../lib/firebase/auth";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import forge from "node-forge";
 import Crypto from "crypto-js";
+import { FaPen } from "react-icons/fa";
 
 const EntryDetails = () => {
   const { crud, id } = useParams();
@@ -118,9 +119,9 @@ const EntryDetails = () => {
     );
   };
   return (
-    <div style={{ width: "100vw", height: "100vh", backgroundColor: "white" }}>
+    <div >
       {crud === "view" ? (
-        <div className="entry-detail">
+        <div className="entry-detail" style={{height: '420px', width: '520px'}}>
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
             <img src={image} alt="ima" />
