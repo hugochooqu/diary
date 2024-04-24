@@ -42,6 +42,8 @@ const Entry = () => {
     //   } catch (error) {
     //     console.error('Error moving entry to trash:', error);
     //   }
+    const confirmDelete = window.confirm("Are you sure you want to move to trash?");
+    if (confirmDelete){
     try {
       const docRef = doc(db, "Entries", entryId);
       const docSnap = await getDoc(docRef);
@@ -61,6 +63,7 @@ const Entry = () => {
     } catch (err) {
       console.error("Error fetching document:", err);
     }
+  }
   };
 
   return (
@@ -114,7 +117,7 @@ const Entry = () => {
                     onClick={() => moveEntryToTrash(entry.id)}
                     className="delete"
                   />
-                  <Tooltip anchorSelect=".delete">Delete</Tooltip>
+                  <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
                 </div>
               </div>
             ))}

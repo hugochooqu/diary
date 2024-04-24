@@ -402,3 +402,34 @@ button {
   width: 79.8vw;
   background-color: transparent;
 }
+
+.trash p{
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.trash-tiles{
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  gap: 70px;
+  position: absolute;
+  top: 50px;
+  left: 100px;
+}
+
+.trash-tile{
+  width: 130px;
+  height: 70px;
+  background-color: rgb(35, 202, 202);
+}
+
+.trash-tile h3{
+  text-align: center;
+  text-transform: capitalize;
+}

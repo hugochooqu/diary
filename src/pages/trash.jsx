@@ -10,7 +10,7 @@ import {
   onSnapshot,
 } from "@firebase/firestore";
 import { get } from "@firebase/database";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaUndo } from "react-icons/fa";
 
 const Trash = () => {
   const [trashedEntries, setTrashedEntries] = useState([]);
@@ -45,8 +45,6 @@ const Trash = () => {
 
   console.log(trashedEntries);
 
-  
-
   const restoreEntry = async (entryId) => {
     try {
       const entryRef = doc(db, "Trash", entryId);
@@ -61,7 +59,6 @@ const Trash = () => {
         console.log("Document not found");
       }
 
-
       await deleteDoc(entryRef);
       // await deleteDoc(doc(db, "Entries", id));
 
@@ -72,14 +69,21 @@ const Trash = () => {
   };
   return (
     <div className="trash">
-        {/* <FaTrash size={300} /> */}
-        {trashedEntries.length === 0 && <p>No notes to be recycled</p>}
-      {trashedEntries.map((entry) => (
-        <div key={entry.id}>
-          <p>{entry.title}</p>
-          <button onClick={() => restoreEntry(entry.id)}>Restore</button>
-        </div>
-      ))}
+      {/* <FaTrash size={300} /> */}
+      {trashedEntries.length === 0 && <p>No notes to be recycled</p>}
+      <div className="trash-tiles">
+        {trashedEntries.map((entry) => (
+          <div className="trash-tile" key={entry.id}>
+            <div>
+              <h3>{entry.title}</h3>
+              <div>
+                <FaUndo onClick={() => restoreEntry(entry.id)} />
+                <FaTrash />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

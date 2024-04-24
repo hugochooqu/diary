@@ -40,7 +40,7 @@ const Navigation = () => {
                 className={activeLink === "home" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("home")}
               >
-                <FaHome /> Home
+                <FaHome color={activeLink === 'home' ? 'purple' : null}  /> Home
               </li>
             </Link>
             <Link
@@ -54,7 +54,7 @@ const Navigation = () => {
                 className={activeLink === "notes" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("notes")}
               >
-                <FaLightbulb /> Add Notes
+                <FaLightbulb color={activeLink === 'notes' ? 'gold' : null}  /> Add Notes
               </li>
             </Link>
             <Link
@@ -68,7 +68,7 @@ const Navigation = () => {
                 className={activeLink === "favorite" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("favorite")}
               >
-                <FaHeart /> Favorites
+                <FaHeart color={activeLink === 'favorite' ? 'red' : null} /> Favorites
               </li>
             </Link>
             <Link
@@ -82,7 +82,7 @@ const Navigation = () => {
                 className={activeLink === "trash" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("trash")}
               >
-                <FaTrash /> Trash
+                <FaTrash color={activeLink === 'trash' ? 'grey' : null}  /> Trash
               </li>
             </Link>
             <Link to="public-diaries"
