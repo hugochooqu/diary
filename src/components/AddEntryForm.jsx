@@ -20,6 +20,8 @@ const AddEntryForm = () => {
 
   const { formattedDate } = useContext(stateContext);
 
+  const isFavorite = false
+
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
@@ -62,6 +64,7 @@ const AddEntryForm = () => {
         key,
         iv,
         imageURL: downloadURL,
+        isFavorite
       };
       await addDoc(collectionRef, entryData);
       console.log("okay");

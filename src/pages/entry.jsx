@@ -3,8 +3,8 @@ import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
 import { db, useAuth } from "../lib/firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc } from "@firebase/firestore";
-import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
+import { FaBookmark, FaEye, FaPen, FaRibbon, FaTrash } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 const Entry = () => {
@@ -66,6 +66,20 @@ const Entry = () => {
   }
   };
 
+  const handleFavorite = async(id)=> {
+     try{
+      const favoriteRef = doc(db, 'Entries', id)
+      const favoriteSnap = await getDoc(favoriteRef)
+
+      if (favoriteSnap.exists()) {
+        const isFavorite = favoriteSnap.data().isFavorite || false;
+        await updateDoc(favoriteRef, {isFavorite: !isFavorite})
+      }
+     } catch (err) {
+      console.log(err)
+     }
+  }
+
   return (
     <div className="entries">
       {loading ? (
@@ -99,6 +113,7 @@ const Entry = () => {
                     left: "100px",
                   }}
                 >
+                  <FaBookmark onClick={() => handleFavorite(entry.id)} color={entry.isFavorite === true && 'red'} />
                   <Link
                     to={`${"view"}/${entry.id}`}
                     style={{ textDecoration: "none", color: "black" }}

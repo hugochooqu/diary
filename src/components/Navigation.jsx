@@ -1,12 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { stateContext } from "../App";
 import { useAuth } from "../lib/firebase/auth";
-import { FaBars, FaCog, FaHeart, FaHome, FaLightbulb, FaTrash } from "react-icons/fa";
+import {
+  FaBars,
+  FaBell,
+  FaCog,
+  FaHeart,
+  FaHome,
+  FaLightbulb,
+  FaTrash,
+} from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("home");
-  const {theme, setIsOpen, toggleTheme, isOpen} = useContext(stateContext)
+  const { theme, setIsOpen, toggleTheme, isOpen } = useContext(stateContext);
 
   const currentUser = useAuth();
 
@@ -21,24 +29,22 @@ const Navigation = () => {
     setIsOpen(false);
   };
   useEffect(() => {
-    const urlSearchString = window.location.search;
-    const params = new URLSearchParams(urlSearchString);
+    const location = window.location.pathname;
+    console.log(location);
 
-    const location = window.location.pathname
-    console.log(location)
-
-    if (location.includes('new')) {
-      setActiveLink('notes')
-    } else if(location.includes('favorites')){
-      setActiveLink('favorite')
-    } else if(location.includes('trash')) {
-      setActiveLink('trash')
-    } else if(location.includes('public')) {
-      setActiveLink('public')
+    if (location.includes("new")) {
+      setActiveLink("notes");
+    } else if (location.includes("favorites")) {
+      setActiveLink("favorite");
+    } else if (location.includes("trash")) {
+      setActiveLink("trash");
+    } else if (location.includes("public")) {
+      setActiveLink("public");
+    } else if (location.includes('reminders')) {
+      setActiveLink('reminders')
     }
 
     // setUserId(params.get("id"));
-    
   });
 
   return (
@@ -60,7 +66,7 @@ const Navigation = () => {
                 className={activeLink === "home" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("home")}
               >
-                <FaHome color={activeLink === 'home' ? 'purple' : null}  /> Home
+                <FaHome color={activeLink === "home" ? "purple" : null} /> Home
               </li>
             </Link>
             <Link
@@ -74,7 +80,8 @@ const Navigation = () => {
                 className={activeLink === "notes" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("notes")}
               >
-                <FaLightbulb color={activeLink === 'notes' ? 'gold' : null}  /> Add Notes
+                <FaLightbulb color={activeLink === "notes" ? "yellow" : null} />{" "}
+                Add Notes
               </li>
             </Link>
             <Link
@@ -88,7 +95,22 @@ const Navigation = () => {
                 className={activeLink === "favorite" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("favorite")}
               >
-                <FaHeart color={activeLink === 'favorite' ? 'red' : null} /> Favorites
+                <FaHeart color={activeLink === "favorite" ? "red" : null} />{" "}
+                Favorites
+              </li>
+            </Link>
+            <Link
+              to="reminders"
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}
+            >
+              <li
+                className={activeLink === "reminders" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("reminders")}
+              >
+                <FaBell color={activeLink === "reminders" ? "gold" : null} /> Reminders
               </li>
             </Link>
             <Link
@@ -102,18 +124,22 @@ const Navigation = () => {
                 className={activeLink === "trash" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("trash")}
               >
-                <FaTrash color={activeLink === 'trash' ? 'grey' : null}  /> Trash
+                <FaTrash color={activeLink === "trash" ? "grey" : null} /> Trash
               </li>
             </Link>
-            <Link to="public-diaries"
+            <Link
+              to="public-diaries"
               style={{
                 textDecoration: "none",
                 color: theme === "light" ? "black" : "white",
-              }}>
-            <li className={activeLink === "public" ? "active" : "inactive"}
-                onClick={() => handleLinkClink("public")}>
-              <FaBars />  Public Diaries
-            </li>
+              }}
+            >
+              <li
+                className={activeLink === "public" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("public")}
+              >
+                <FaBars /> Public Diaries
+              </li>
             </Link>
 
             {/* <li

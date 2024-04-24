@@ -17,6 +17,7 @@ import Layout from "./components/layout";
 import AddEntryForm from "./components/AddEntryForm";
 import PublicDiaries from "./pages/PublicDiaries";
 import Favorites from "./pages/Favorites";
+import Reminders from "./pages/Reminders";
 
 const router = createBrowserRouter([
   {
@@ -56,8 +57,12 @@ const router = createBrowserRouter([
         element: <PublicDiaries />
       },
       {
-        path:'favorites',
+        path:'/dashboard/favorites',
         element: <Favorites />
+      },
+      {
+        path:'/dashboard/reminders',
+        element: <Reminders />
       }
     ]
   }
