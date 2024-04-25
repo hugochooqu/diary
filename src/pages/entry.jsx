@@ -4,7 +4,7 @@ import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
 import { db, useAuth } from "../lib/firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
-import { FaBookmark, FaEye, FaPen, FaRibbon, FaTrash } from "react-icons/fa";
+import { FaBookmark, FaEye, FaEyeSlash, FaPen, FaRibbon, FaTrash } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 const Entry = () => {
@@ -80,6 +80,20 @@ const Entry = () => {
      }
   }
 
+  const handlePublic = async(id)=> {
+    try{
+     const publicRef = doc(db, 'Entries', id)
+     const publicSnap = await getDoc(publicRef)
+
+     if (publicSnap.exists()) {
+       const isPublic = publicSnap.data().isPublic || false;
+       await updateDoc(publicRef, {isPublic: !isPublic})
+     }
+    } catch (err) {
+     console.log(err)
+    }
+ }
+
   return (
     <div className="entries">
       {loading ? (
@@ -98,7 +112,7 @@ const Entry = () => {
             {data.map((entry) => (
               <div className="entry-tile" key={entry.id}>
                 <p>{entry.title}</p>
-                <Decrypt
+                <Decrypt className = 'decrypt'
                   encryptedData={entry.encryptedData}
                   decryptKey={entry.key}
                   iv={entry.iv}
@@ -109,8 +123,8 @@ const Entry = () => {
                     flexDirection: "row",
                     gap: "20px",
                     position: "relative",
-                    bottom: "-120px",
-                    left: "100px",
+                    bottom: "-10px",
+                    left: "80px",
                   }}
                 >
                   <FaBookmark onClick={() => handleFavorite(entry.id)} color={entry.isFavorite === true && 'red'} />
@@ -133,6 +147,7 @@ const Entry = () => {
                     className="delete"
                   />
                   <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
+                  <FaEyeSlash onClick={() => handlePublic(entry.id)}  />
                 </div>
               </div>
             ))}

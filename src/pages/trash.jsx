@@ -11,6 +11,7 @@ import {
 } from "@firebase/firestore";
 import { get } from "@firebase/database";
 import { FaTrash, FaUndo } from "react-icons/fa";
+import Decrypt from "../components/decrypt";
 
 const Trash = () => {
   const [trashedEntries, setTrashedEntries] = useState([]);
@@ -89,13 +90,18 @@ const Trash = () => {
           <div className="trash-tile" key={entry.id}>
             <div>
               <h3>{entry.title}</h3>
+              <Decrypt
+                  encryptedData={entry.encryptedData}
+                  decryptKey={entry.key}
+                  iv={entry.iv}
+                />
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   gap: "20px",
                   position: "relative",
-                  bottom: "-20px",
+                  bottom: "-10px",
                   left: "70px",
                 }}
               >
