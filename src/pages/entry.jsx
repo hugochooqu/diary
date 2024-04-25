@@ -1,14 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
 import { db, useAuth } from "../lib/firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
-import { FaBookmark, FaEye, FaEyeSlash, FaPen, FaRibbon, FaTrash } from "react-icons/fa";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from "@firebase/firestore";
+import {
+  FaBookmark,
+  FaEllipsisV,
+  FaEye,
+  FaEyeSlash,
+  FaHamburger,
+  FaPen,
+  FaRibbon,
+  FaTrash,
+} from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 const Entry = () => {
-  const { loading, data } = useContext(stateContext);
+  const { loading, data, theme } = useContext(stateContext);
+  console.log(data.length);
+  const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
@@ -42,57 +60,76 @@ const Entry = () => {
     //   } catch (error) {
     //     console.error('Error moving entry to trash:', error);
     //   }
-    const confirmDelete = window.confirm("Are you sure you want to move to trash?");
-    if (confirmDelete){
-    try {
-      const docRef = doc(db, "Entries", entryId);
-      const docSnap = await getDoc(docRef);
+    const confirmDelete = window.confirm(
+      "Are you sure you want to move to trash?"
+    );
+    if (confirmDelete) {
+      try {
+        const docRef = doc(db, "Entries", entryId);
+        const docSnap = await getDoc(docRef);
 
+        if (docSnap.exists()) {
+          const entryRef = collection(db, "Trash");
+          const entryData = { ...docSnap.data(), id: docSnap.id };
+          console.log(entryData);
+          await addDoc(entryRef, entryData);
+          console.log("okay");
+        } else {
+          console.log("Document not found");
+        }
 
-      if (docSnap.exists()) {
-        const entryRef = collection(db, 'Trash')
-        const entryData = { ...docSnap.data(), id: docSnap.id };
-        console.log(entryData)
-        await addDoc(entryRef, entryData);
-        console.log('okay')
-      } else {
-        console.log("Document not found");
+        await deleteDoc(docRef);
+      } catch (err) {
+        console.error("Error fetching document:", err);
       }
-
-      await deleteDoc(docRef)
-    } catch (err) {
-      console.error("Error fetching document:", err);
     }
-  }
   };
 
-  const handleFavorite = async(id)=> {
-     try{
-      const favoriteRef = doc(db, 'Entries', id)
-      const favoriteSnap = await getDoc(favoriteRef)
+  const handleFavorite = async (id) => {
+    try {
+      const favoriteRef = doc(db, "Entries", id);
+      const favoriteSnap = await getDoc(favoriteRef);
 
       if (favoriteSnap.exists()) {
         const isFavorite = favoriteSnap.data().isFavorite || false;
-        await updateDoc(favoriteRef, {isFavorite: !isFavorite})
+        await updateDoc(favoriteRef, { isFavorite: !isFavorite });
       }
-     } catch (err) {
-      console.log(err)
-     }
-  }
-
-  const handlePublic = async(id)=> {
-    try{
-     const publicRef = doc(db, 'Entries', id)
-     const publicSnap = await getDoc(publicRef)
-
-     if (publicSnap.exists()) {
-       const isPublic = publicSnap.data().isPublic || false;
-       await updateDoc(publicRef, {isPublic: !isPublic})
-     }
     } catch (err) {
-     console.log(err)
+      console.log(err);
     }
- }
+  };
+
+  const handlePublic = async (id, index) => {
+    try {
+      const publicRef = doc(db, "Entries", id);
+      const publicSnap = await getDoc(publicRef);
+
+      if (publicSnap.exists()) {
+        const isPublic = publicSnap.data().isPublic || false;
+        await updateDoc(publicRef, { isPublic: !isPublic });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setIsOpen((prevIsOpen) => {
+      const updatedIsOpen = new Array(prevIsOpen.length).fill(false); // Create a copy of the state array
+      updatedIsOpen[index] = false; // Toggle the dropdown state for the specified index
+      return updatedIsOpen; // Return the updated array
+    });
+  };
+
+  const toggleDropdown = (index) => {
+    setIsOpen((prevIsOpen) => {
+      const updatedIsOpen = new Array(prevIsOpen.length).fill(false); // Create a copy of the state array
+      updatedIsOpen[index] = !updatedIsOpen[index]; // Toggle the dropdown state for the specified index
+      return updatedIsOpen; // Return the updated array
+    });
+  };
+
+  const handleOptionSelect = () => {
+    setIsOpen(false);
+  };
 
   return (
     <div className="entries">
@@ -109,10 +146,11 @@ const Entry = () => {
             </p>
           )}
           <div className="entry-tiles">
-            {data.map((entry) => (
+            {data.map((entry, index) => (
               <div className="entry-tile" key={entry.id}>
                 <p>{entry.title}</p>
-                <Decrypt className = 'decrypt'
+                <Decrypt
+                  className="decrypt"
                   encryptedData={entry.encryptedData}
                   decryptKey={entry.key}
                   iv={entry.iv}
@@ -124,10 +162,13 @@ const Entry = () => {
                     gap: "20px",
                     position: "relative",
                     bottom: "-10px",
-                    left: "80px",
+                    left: "50px",
                   }}
                 >
-                  <FaBookmark onClick={() => handleFavorite(entry.id)} color={entry.isFavorite === true && 'red'} />
+                  <FaBookmark
+                    onClick={() => handleFavorite(entry.id)}
+                    color={entry.isFavorite === true && "red"}
+                  />
                   <Link
                     to={`${"view"}/${entry.id}`}
                     style={{ textDecoration: "none", color: "black" }}
@@ -147,7 +188,14 @@ const Entry = () => {
                     className="delete"
                   />
                   <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
-                  <FaEyeSlash onClick={() => handlePublic(entry.id)}  />
+                  <FaEllipsisV onClick={() => toggleDropdown(index)} />
+                  {isOpen[index] && (
+                    <ul className={`toggle-menu ${theme}`}>
+                      <li onClick={() => handlePublic(entry.id, index)}>
+                        {entry.isPublic ? "Make Private" : "Make Public"}
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
             ))}

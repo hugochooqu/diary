@@ -391,6 +391,26 @@ button {
   gap: 20px;
 }
 
+.toggle-menu{
+  position: absolute;
+  min-width: 140px;
+  z-index: 1;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  list-style: none;
+  right: -90px;
+  top: 20px;
+  height: 80px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 10px;
+}
+
+.toggle-menu li{
+  cursor: pointer;
+}
+
 .date{
   display: flex;
   flex-direction: row;
@@ -428,6 +448,7 @@ button {
   height: 30vh;
   background-color: rgb(35, 202, 202);
   padding: 10px;
+  border-radius: 10px;
 }
 
 .trash-tile h3{
