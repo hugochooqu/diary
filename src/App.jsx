@@ -18,6 +18,7 @@ import AddEntryForm from "./components/AddEntryForm";
 import PublicDiaries from "./pages/PublicDiaries";
 import Favorites from "./pages/Favorites";
 import Reminders from "./pages/Reminders";
+import ViewProfile from "./pages/ViewProfile";
 
 const router = createBrowserRouter([
   {
@@ -85,11 +86,13 @@ const router = createBrowserRouter([
 export const stateContext = createContext();
 
 function App() {
-  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme } = UseFetch("Entries");
+  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme, showProfileHandler, profileIsShown } = UseFetch("Entries");
   return (
     <main>
-      <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme }}>
+    <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme, showProfileHandler, profileIsShown }}>
         <RouterProvider router={router} />
+      {profileIsShown && <ViewProfile />}
+
       </stateContext.Provider>
     </main>
   );

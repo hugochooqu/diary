@@ -2,19 +2,24 @@ import React, { useContext, useEffect, useState } from "react";
 import { stateContext } from "../App";
 import { useAuth } from "../lib/firebase/auth";
 import {
+  FaArrowCircleLeft,
   FaBars,
   FaBell,
   FaCog,
   FaHeart,
   FaHome,
   FaLightbulb,
+  FaMoon,
+  FaSignOutAlt,
   FaTrash,
+  FaUser,
+  FaUsers,
 } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("home");
-  const { theme, setIsOpen, toggleTheme, isOpen } = useContext(stateContext);
+  const { theme, setIsOpen, toggleTheme, isOpen, showProfileHandler } = useContext(stateContext);
 
   const currentUser = useAuth();
 
@@ -141,6 +146,20 @@ const Navigation = () => {
                 <FaBars /> Public Diaries
               </li>
             </Link>
+            <Link
+              to="xcommunity"
+              style={{
+                textDecoration: "none",
+                color: theme === "light" ? "black" : "white",
+              }}
+            >
+              <li
+                className={activeLink === "community" ? "active" : "inactive"}
+                onClick={() => handleLinkClink("community")}
+              >
+                <FaUsers /> Community
+              </li>
+            </Link>
 
             {/* <li
               className={activeLink === "settings" ? "active" : "inactive"}
@@ -190,12 +209,13 @@ const Navigation = () => {
           </div>
           {isOpen && (
             <ul className={`dropdown-menu ${theme}`}>
+              <li onClick={() => {showProfileHandler(); handleOptionSelect();}}><FaUser />  View profile</li>
               <li onClick={handleOptionSelect}>
                 <span>
-                  Dark mode <input type="checkbox" onClick={toggleTheme} />
+                <FaMoon />  Dark mode <input type="checkbox" onClick={toggleTheme} />
                 </span>
               </li>
-              <li>Logout</li>
+              <li><FaSignOutAlt />  Logout</li>
             </ul>
           )}
         </div>

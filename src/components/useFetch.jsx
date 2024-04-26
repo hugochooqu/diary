@@ -6,9 +6,14 @@ import { useAuth } from "../lib/firebase/auth";
 function UseFetch(collectionName) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(false)
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light")
-  const [isOpen, setIsOpen] = useState(false)
+  const [expanded, setExpanded] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [isOpen, setIsOpen] = useState(false);
+  const [profileIsShown, setProfileIsShown] = useState(false);
+
+  const showProfileHandler = () => {
+    setProfileIsShown(!profileIsShown);
+  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -25,22 +30,28 @@ function UseFetch(collectionName) {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  
-
   const today = new Date();
-  const daysOfTheWeekNumber = today.getDay()
-  const daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  const dayOfTheWeek = daysOfTheWeek[daysOfTheWeekNumber]
+  const daysOfTheWeekNumber = today.getDay();
+  const daysOfTheWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const dayOfTheWeek = daysOfTheWeek[daysOfTheWeekNumber];
 
-  const day = today.getDate()
+  const day = today.getDate();
   const month = today.getMonth() + 1;
-  const year = today. getFullYear()
+  const year = today.getFullYear();
 
-  const formattedDate = `${dayOfTheWeek}, ${day}/${month}/${year}`
+  const formattedDate = `${dayOfTheWeek}, ${day}/${month}/${year}`;
 
   const handleToggleExpanded = () => {
-    setExpanded(!expanded)
-  }
+    setExpanded(!expanded);
+  };
   const currentUser = useAuth();
 
   useEffect(() => {
@@ -53,22 +64,38 @@ function UseFetch(collectionName) {
             ...doc.data(),
             id: doc.id,
           }));
-          const filteredData = newData.filter((data) => data.userId === currentUser?.uid);
-          
-          setData(filteredData)
-          setLoading(false);
+          const filteredData = newData.filter(
+            (data) => data.userId === currentUser?.uid
+          );
 
+          setData(filteredData);
+          setLoading(false);
         } catch (error) {
           console(error);
           setLoading(false);
         }
       }
     );
-    return () => unsubscribe()
+    return () => unsubscribe();
   }, [collectionName, currentUser]);
 
-
-  return { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate, theme, setTheme, isOpen, setIsOpen, toggleTheme };
+  return {
+    data,
+    loading,
+    setLoading,
+    currentUser,
+    expanded,
+    setExpanded,
+    handleToggleExpanded,
+    formattedDate,
+    theme,
+    setTheme,
+    isOpen,
+    setIsOpen,
+    toggleTheme,
+    showProfileHandler,
+    profileIsShown
+  };
 }
 
 export default UseFetch;
