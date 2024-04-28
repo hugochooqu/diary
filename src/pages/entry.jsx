@@ -17,6 +17,7 @@ import {
   FaEye,
   FaEyeSlash,
   FaHamburger,
+  FaHeart,
   FaPen,
   FaRibbon,
   FaTrash,
@@ -32,34 +33,8 @@ const Entry = () => {
   const userId = currentUser?.uid;
   console.log(userId);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    console.log(id);
-    if (confirmDelete) {
-      try {
-        await deleteDoc(doc(db, "Entries", id));
-        // window.location.reload()
-      } catch (error) {
-        console.log("an error occured", error);
-      }
-    }
-  };
-
+ 
   const moveEntryToTrash = async (entryId) => {
-    //   try {
-    //     // Get the entry from the original collection (e.g., 'Entries')
-    //     const entryRef = collection(db, 'Entries', entryId);
-    //     const entrySnapshot = await entryRef.get();
-    //     const entryData = entrySnapshot.data();
-
-    //     // Add the entry to the 'Trash' collection
-    //     await db.collection('Trash').add(entryData);
-
-    //     // Delete the entry from the original collection
-    //     await entryRef.delete();
-    //   } catch (error) {
-    //     console.error('Error moving entry to trash:', error);
-    //   }
     const confirmDelete = window.confirm(
       "Are you sure you want to move to trash?"
     );
@@ -148,7 +123,7 @@ const Entry = () => {
           <div className="entry-tiles">
             {data.map((entry, index) => (
               <div className="entry-tile" key={entry.id}>
-                <p>{entry.title}</p>
+                <p>{entry.title.slice(0, 15)}{entry.title.length > 15 && '...'}</p>
                 <Decrypt
                   className="decrypt"
                   encryptedData={entry.encryptedData}
@@ -165,7 +140,7 @@ const Entry = () => {
                     left: "50px",
                   }}
                 >
-                  <FaBookmark
+                  <FaHeart
                     onClick={() => handleFavorite(entry.id)}
                     color={entry.isFavorite === true && "red"}
                   />

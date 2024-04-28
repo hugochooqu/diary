@@ -95,7 +95,7 @@ const EntryDetails = () => {
     try {
       const docRef = doc(db, "Entries", id);
       await updateDoc(docRef, {
-        title: formData.title,
+        title: formData.title || title,
         encryptedData: encryptedEditData,
         iv,
         key,
@@ -122,7 +122,7 @@ const EntryDetails = () => {
   return (
     <div >
       {crud === "view" ? (
-        <div className="entry-detail" style={{height: '420px', width: '520px'}}>
+        <div className="entry-detail" style={{height: '420px', width: '520px', borderRadius: "10px"}}>
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
            {image === null && <img src={image} alt="ima" />} 

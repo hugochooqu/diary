@@ -1,10 +1,13 @@
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   onSnapshot,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "@firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
@@ -12,7 +15,7 @@ import { db, useAuth } from "../lib/firebase/auth";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
-import { FaEye, FaPen } from "react-icons/fa";
+import { FaEye, FaHeart, FaPen } from "react-icons/fa";
 import {Tooltip} from 'react-tooltip'
 
 const Favorites = () => {
@@ -42,6 +45,20 @@ const Favorites = () => {
     return () => unsubscribe();
   }, [currentUser]);
 
+  const handleFavorite = async (id) => {
+    try {
+      const favoriteRef = doc(db, "Entries", id);
+      const favoriteSnap = await getDoc(favoriteRef);
+
+      if (favoriteSnap.exists()) {
+        const isFavorite = favoriteSnap.data().isFavorite || false;
+        await updateDoc(favoriteRef, { isFavorite: !isFavorite });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <div className="trash">
@@ -60,12 +77,14 @@ const Favorites = () => {
                     display: "flex",
                     flexDirection: "row",
                     gap: "20px",
-                    position: "relative",
-                    bottom: "-10px",
-                    left: "80px",
+                    position: "absolute",
+                    bottom: "20px",
+                    left: "100px",
                   }}
                 >
                   {/* <FaBookmark onClick={() => handleFavorite(entry.id)} color={entry.isFavorite === true && 'red'} /> */}
+                 
+                  <FaHeart onClick={() => handleFavorite(fav.id)} color="red" />
                   <Link
                     to={`/dashboard/${"view"}/${fav.id}`}
                     style={{ textDecoration: "none", color: "black" }}

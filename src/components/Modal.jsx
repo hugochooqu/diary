@@ -1,7 +1,5 @@
 import { Fragment, useContext } from "react";
 import ReactDOM from "react-dom";
-import { stateContext } from "../App";
-
 
 
 const Backdrop = (props) => {
@@ -10,7 +8,7 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-    <div className='modal'>
+    <div className={`modal ${props.className}`}>
       <div className='modal-content'>{props.children}</div>
     </div>
   );
@@ -23,7 +21,7 @@ const Modal = (props) => {
     <Fragment>
       {ReactDOM.createPortal(<Backdrop onClose={props.onClose}/>, portalElement)}
       {ReactDOM.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
+        <ModalOverlay className={props.className}>{props.children}</ModalOverlay>,
         portalElement
       )}
     </Fragment>

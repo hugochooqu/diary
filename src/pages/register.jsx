@@ -6,6 +6,7 @@ const Register = () => {
   const auth = getAuth();
   const navigate = useNavigate()
 
+  const [userName, setUserName] = useState('')
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,6 +19,7 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'username') setUserName(value)
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
     if (name === "confirmPassword") setConfirmPassword(value);
@@ -110,6 +112,7 @@ const Register = () => {
         <h1>Sign up</h1>
         {errorMessage && <span className="err">{errorMessage}</span>}
         <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="Username" name="username" onChange={handleChange}/>
           <input
             type="email"
             placeholder="Email"

@@ -80,6 +80,7 @@ const AddEntryForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target.value)
 
     if (name === "title") setTitle(value);
     if (name === "content") setContent(value);

@@ -17,7 +17,7 @@ const Decrypt = (props) => {
     const decryptedData = decipher.output.toString('utf8')
   return (
     <div className='decrypt' >
-      <i >{decryptedData.slice(0, 100)} </i>
+      <i >{decryptedData.slice(0, 100)}{decryptedData.length > 100 && '...'} </i>
     </div>
   )
 }

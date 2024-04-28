@@ -19,66 +19,72 @@ import PublicDiaries from "./pages/PublicDiaries";
 import Favorites from "./pages/Favorites";
 import Reminders from "./pages/Reminders";
 import ViewProfile from "./pages/ViewProfile";
+import Community from "./pages/Community";
 
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element: <Home />
-  },
-  {
-    path:'/signin',
-    element: <SignIn />
-  },
-  {
-    path:'/register',
-    element: <Register />
-  },
-  {
-    path: '/dashboard',
-    element: <Layout />,
-    children: [
-      {
-        path:"/dashboard",
-        element: <Entry />
-      },
-      {
-        path:'/dashboard/new',
-        element: <AddEntryForm />
-      },
-      {
-        path:'/dashboard/trash',
-        element: <Trash />
-      },
-      {
-        path:'/dashboard/:crud/:id',
-        element: <EntryDetails />
-      },
-      {
-        path:'/dashboard/public-diaries',
-        element: <PublicDiaries />
-      },
-      {
-        path:'/dashboard/favorites',
-        element: <Favorites />
-      },
-      {
-        path:'/dashboard/reminders',
-        element: <Reminders />
-      }
-    ]
-  }
-]
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/signin",
+      element: <SignIn />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/dashboard",
+      element: <Layout />,
+      children: [
+        {
+          path: "/dashboard",
+          element: <Entry />,
+        },
+        {
+          path: "/dashboard/new",
+          element: <AddEntryForm />,
+        },
+        {
+          path: "/dashboard/trash",
+          element: <Trash />,
+        },
+        {
+          path: "/dashboard/:crud/:id",
+          element: <EntryDetails />,
+        },
+        {
+          path: "/dashboard/public-diaries",
+          element: <PublicDiaries />,
+        },
+        {
+          path: "/dashboard/favorites",
+          element: <Favorites />,
+        },
+        {
+          path: "/dashboard/reminders",
+          element: <Reminders />,
+        },
+      ],
+    },
+    {
+      path:'/community',
+      element: <Community />
+    }
+  ]
   // createRoutesFromElements(
   //   <Route>
   //     <Route index element={<Home />} />
   //     <Route path="/signin" element={<SignIn />} />
   //     <Route path="/register" element={<Register />} />
   //     <Route path="/dashboard" element={<Layout />} children={[
-        
+
   //     ]} />
   //     <Route path='/entries' element={<Entry />} />
   //     <Route path="/entry/:crud/:id" element={<EntryDetails />} />
-  //     <Route path="/trash" element={<Trash />} /> 
+  //     <Route path="/trash" element={<Trash />} />
   //   </Route>
   // )
 );
@@ -86,13 +92,46 @@ const router = createBrowserRouter([
 export const stateContext = createContext();
 
 function App() {
-  const { data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme, showProfileHandler, profileIsShown } = UseFetch("Entries");
+  const {
+    data,
+    loading,
+    setLoading,
+    currentUser,
+    expanded,
+    setExpanded,
+    handleToggleExpanded,
+    formattedDate,
+    theme,
+    setTheme,
+    isOpen,
+    setIsOpen,
+    toggleTheme,
+    showProfileHandler,
+    profileIsShown,
+  } = UseFetch("Entries");
   return (
     <main>
-    <stateContext.Provider value={{ data, loading, setLoading, currentUser, expanded, setExpanded, handleToggleExpanded, formattedDate,  theme, setTheme, isOpen, setIsOpen, toggleTheme, showProfileHandler, profileIsShown }}>
+      <stateContext.Provider
+        value={{
+          data,
+          loading,
+          setLoading,
+          currentUser,
+          expanded,
+          setExpanded,
+          handleToggleExpanded,
+          formattedDate,
+          theme,
+          setTheme,
+          isOpen,
+          setIsOpen,
+          toggleTheme,
+          showProfileHandler,
+          profileIsShown,
+        }}
+      >
         <RouterProvider router={router} />
-      {profileIsShown && <ViewProfile />}
-
+        {profileIsShown && <ViewProfile />}
       </stateContext.Provider>
     </main>
   );

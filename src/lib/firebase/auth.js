@@ -1,5 +1,5 @@
 import { initializeApp } from "@firebase/app";
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from "@firebase/auth";
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "@firebase/auth";
 import { redirect, useNavigate } from "react-router-dom";
 import { getDatabase} from '@firebase/database'
 import { useEffect, useState } from "react";
@@ -24,6 +24,15 @@ export const database = getDatabase(app)
 export const db = getFirestore(app)
 
 const auth = getAuth(app);
+
+export function SignOut (){
+  signOut(auth).then(() => {
+    console.log('successful')
+    redirect('/')
+  }).catch((err) => {
+    console.log(err)
+  })
+}
 
 const SignInWithGoogle = async (redirectCallback) => {
   const provider = new GoogleAuthProvider();

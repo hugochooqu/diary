@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { stateContext } from "../App";
-import { useAuth } from "../lib/firebase/auth";
+import { SignOut, useAuth } from "../lib/firebase/auth";
 import {
   FaArrowCircleLeft,
   FaBars,
@@ -15,13 +15,15 @@ import {
   FaUser,
   FaUsers,
 } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("home");
   const { theme, setIsOpen, toggleTheme, isOpen, showProfileHandler } = useContext(stateContext);
 
+  const navigate = useNavigate()
   const currentUser = useAuth();
+  console.log(currentUser?.photoURL)
 
   const handleLinkClink = (link) => {
     setActiveLink(link);
@@ -51,6 +53,12 @@ const Navigation = () => {
 
     // setUserId(params.get("id"));
   });
+
+  const handleSignOut = () => {
+    SignOut(() => {
+      navigate('/signin')
+    })
+  }
 
   return (
     <div className={`dashboard ${theme}`}>
@@ -147,7 +155,7 @@ const Navigation = () => {
               </li>
             </Link>
             <Link
-              to="xcommunity"
+              to="/community"
               style={{
                 textDecoration: "none",
                 color: theme === "light" ? "black" : "white",
@@ -161,43 +169,13 @@ const Navigation = () => {
               </li>
             </Link>
 
-            {/* <li
-              className={activeLink === "settings" ? "active" : "inactive"}
-              onClick={() => handleLinkClink("settings")}
-            >
-              Settings
-            </li>
-            <li
-              className={activeLink === "logout" ? "active" : "inactive"}
-              onClick={() => handleLinkClink("logout")}
-            >
-              Logout
-            </li> */}
+           
           </ul>
         </div>
-        <div className="recent-entries">
-          <h2>Recent Entries</h2>
-
-          {/* {recentEntries && recentEntries.length > 0 ? (
-            recentEntries.map((entry) => (
-              <div>
-                <Link
-                  to={`/entry/${"view"}/${entry.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <p>{entry.title.slice(0, 20)}...</p>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <li>No recent entries found</li>
-          )} */}
-        </div>
+        
       </div>
       <div className="dashboard-main">
         <div className="dashboard-header">
-          {/* {userName ? <p>{userName}</p> : <i>undefined</i>}
-           */}
           <h1>DEE YA</h1>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <FaCog
@@ -210,12 +188,12 @@ const Navigation = () => {
           {isOpen && (
             <ul className={`dropdown-menu ${theme}`}>
               <li onClick={() => {showProfileHandler(); handleOptionSelect();}}><FaUser />  View profile</li>
-              <li onClick={handleOptionSelect}>
+              <li onClick={() => {handleOptionSelect(); toggleTheme()} }>
                 <span>
-                <FaMoon />  Dark mode <input type="checkbox" onClick={toggleTheme} />
+                <FaMoon />  Dark mode <input type="checkbox" />
                 </span>
               </li>
-              <li><FaSignOutAlt />  Logout</li>
+              <li onClick={() => {handleOptionSelect(); handleSignOut();}}><FaSignOutAlt />  Logout</li>
             </ul>
           )}
         </div>
