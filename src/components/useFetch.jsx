@@ -79,6 +79,8 @@ function UseFetch(collectionName) {
     return () => unsubscribe();
   }, [collectionName, currentUser]);
 
+  
+
   return {
     data,
     loading,
@@ -94,7 +96,7 @@ function UseFetch(collectionName) {
     setIsOpen,
     toggleTheme,
     showProfileHandler,
-    profileIsShown
+    profileIsShown,
   };
 }
 

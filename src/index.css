@@ -312,6 +312,7 @@ textarea {
   display: grid;
   grid-template-columns: 30% 30% 30%;
   gap: -10px 100px;
+ 
 }
 
 .entry-tile {
@@ -328,6 +329,7 @@ textarea {
   color: black;
   border-radius: 10px;
   animation: slide-down 300ms ease-out forwards;
+  z-index: 0;
 }
 
 .entry-tile p {
@@ -379,7 +381,7 @@ textarea {
 .dropdown-menu {
   position: absolute;
   min-width: 160px;
-  z-index: 1;
+  z-index: 10;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   list-style: none;
   right: 100px;
@@ -398,7 +400,7 @@ textarea {
 .toggle-menu {
   position: absolute;
   min-width: 140px;
-  z-index: 1;
+  z-index: 5;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   list-style: none;
   right: -90px;
@@ -479,7 +481,7 @@ textarea {
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 20;
+  z-index: 2;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -491,7 +493,7 @@ textarea {
   height: 85vh;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 30;
+  z-index: 3;
   animation: slide-down 300ms ease-out forwards;
 }
 

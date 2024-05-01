@@ -6,13 +6,13 @@ import {
   updateDoc,
 } from "@firebase/firestore";
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import { db } from "../lib/firebase/auth";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import forge from "node-forge";
 import Crypto from "crypto-js";
-import { FaPen } from "react-icons/fa";
+import { FaArrowLeft, FaPen } from "react-icons/fa";
 
 const EntryDetails = () => {
   const { crud, id } = useParams();
@@ -23,6 +23,12 @@ const EntryDetails = () => {
     image: "",
   });
   const { setLoading, loading } = useContext(stateContext);
+
+  const history = useNavigate()
+
+  const Back = () => {
+    history(-1)
+  }
 
   const location = useLocation();
   const url = window.location.origin + location.pathname;
@@ -123,6 +129,7 @@ const EntryDetails = () => {
     <div >
       {crud === "view" ? (
         <div className="entry-detail" style={{height: '420px', width: '520px', borderRadius: "10px"}}>
+          <p onClick={Back} style={{cursor:'pointer'}}><FaArrowLeft/> Back</p>
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
            {image === null && <img src={image} alt="ima" />} 
