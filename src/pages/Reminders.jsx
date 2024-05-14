@@ -1,49 +1,61 @@
 import React, {useState, useEffect} from 'react'
 
 const Reminders = () => {
-  const [transcript, setTranscript] = useState('')
-  const [recognition, setRecognition] = useState(null)
+  const [recognizedText, setRecognizedText] = useState('');
+  const [listening, setListening] = useState(false);
+  let recognition = null
 
   useEffect(() => {
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
+    recognition = new window.webkitSpeechRecognition() ||new window.SpeechRecognition()
 
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setTranscript(transcript);
-      };
+    recognition.interimResults = true;
 
-      recognition.onerror = (event) => {
-        console.error('Speech recognition error:', event.error)
-      };
+    recognition.onstart = () => {
+      setListening(true);
+    };
 
-      setRecognition(recognition)
-    } else {
-      console.error('Speech recognition not supported in this browser')
-    }
-  }, [])
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setListening(false);
+    };
 
-  const startRecognition = () => {
-    if(recognition) {
-      recognition.start();
-      console.log('Speech recognition started.')
-    }
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interimTranscript += event.results[i][0].transcript;
+        }
+      }
+
+      setRecognizedText(finalTranscript);
+    };
+
+    return () => {
+      recognition.abort();
+    };
+  }, []);
+
+  const startListening = () => {
+    setRecognizedText('');
+    recognition.start();
   };
 
-  const stopRecognition = () => {
-    if (recognition) {
-      recognition.stop()
-      console.log('Speech recognition stopped')
-    }
-  }
+  const stopListening = () => {
+    recognition.stop();
+  };
   return (
     <div>
-      <button onClick={startRecognition}>Start</button>
-      <button onClick={stopRecognition}>Stop</button>
-      <p>{transcript}</p>
+      <button onClick={startListening} disabled={listening}>Start</button>
+      <button onClick={stopListening} disabled={!listening}>Stop</button>
+      <p>Recognized Text: {recognizedText}</p>
     </div>
   )
 }

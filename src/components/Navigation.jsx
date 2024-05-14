@@ -11,6 +11,7 @@ import {
   FaLightbulb,
   FaMoon,
   FaSignOutAlt,
+  FaSun,
   FaTrash,
   FaUser,
   FaUsers,
@@ -190,7 +191,7 @@ const Navigation = () => {
               <li onClick={() => {showProfileHandler(); handleOptionSelect();}}><FaUser />  View profile</li>
               <li onClick={() => {handleOptionSelect(); toggleTheme()} }>
                 <span>
-                <FaMoon />  Dark mode <input type="checkbox" />
+                {theme =='dark'? <span><FaSun /> Light mode</span>: <span><FaMoon /> Dark mode</span>}
                 </span>
               </li>
               <li onClick={() => {handleOptionSelect(); handleSignOut();}}><FaSignOutAlt />  Logout</li>

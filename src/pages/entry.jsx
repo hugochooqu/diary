@@ -142,7 +142,7 @@ const Entry = () => {
                 >
                   <FaHeart
                     onClick={() => handleFavorite(entry.id)}
-                    color={entry.isFavorite === true && "red"}
+                    color={entry.isFavorite === true ? "red" : 'black'}
                   />
                   <Link
                     to={`${"view"}/${entry.id}`}
