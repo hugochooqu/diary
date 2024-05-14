@@ -312,6 +312,7 @@ textarea {
   display: grid;
   grid-template-columns: 30% 30% 30%;
   gap: -10px 100px;
+  z-index: 0;
  
 }
 
@@ -326,7 +327,6 @@ textarea {
   /* height: fit-content; */
   height: 30vh;
   padding: 5px;
-  color: black;
   border-radius: 10px;
   animation: slide-down 300ms ease-out forwards;
   z-index: 0;
@@ -400,7 +400,7 @@ textarea {
 .toggle-menu {
   position: absolute;
   min-width: 140px;
-  z-index: 5;
+  z-index: 20;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   list-style: none;
   right: -90px;

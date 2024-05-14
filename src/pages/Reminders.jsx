@@ -53,9 +53,10 @@ const Reminders = () => {
   };
   return (
     <div>
-      <button onClick={startListening} disabled={listening}>Start</button>
+      {/* <button onClick={startListening} disabled={listening}>Start</button>
       <button onClick={stopListening} disabled={!listening}>Stop</button>
-      <p>Recognized Text: {recognizedText}</p>
+      <p>Recognized Text: {recognizedText}</p> */}
+      <h1>COMING SOON!!!</h1>
     </div>
   )
 }

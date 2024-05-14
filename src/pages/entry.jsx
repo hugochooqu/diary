@@ -142,18 +142,18 @@ const Entry = () => {
                 >
                   <FaHeart
                     onClick={() => handleFavorite(entry.id)}
-                    color={entry.isFavorite === true ? "red" : 'black'}
+                    color={entry.isFavorite === true ? "red" :`${theme === 'dark'? 'white' : 'black'}`}
                   />
                   <Link
                     to={`${"view"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: "black" }}
+                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}` }}
                   >
                     <FaEye title="view" className="view" />
                   </Link>
                   <Tooltip anchorSelect=".view">View</Tooltip>
                   <Link
                     to={`${"edit"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: "black" }}
+                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}`}}
                   >
                     <FaPen className="edit" />
                   </Link>
