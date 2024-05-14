@@ -13,6 +13,7 @@ import Decrypt from "../components/decrypt";
 import forge from "node-forge";
 import Crypto from "crypto-js";
 import { FaArrowLeft, FaPen } from "react-icons/fa";
+import TextToSpeech from "../components/TextToSpeech";
 
 const EntryDetails = () => {
   const { crud, id } = useParams();
@@ -130,11 +131,13 @@ const EntryDetails = () => {
       {crud === "view" ? (
         <div className="entry-detail" style={{height: '420px', width: '520px', borderRadius: "10px"}}>
           <p onClick={Back} style={{cursor:'pointer'}}><FaArrowLeft/> Back</p>
+          <TextToSpeech entry={decryptedData} />
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
            {image === null && <img src={image} alt="ima" />} 
           </div>
           <p>{decryptedData}</p>
+          
         </div>
       ) : null}
       {crud === "edit" ? (

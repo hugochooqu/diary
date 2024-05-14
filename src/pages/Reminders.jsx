@@ -9,7 +9,7 @@ const Reminders = () => {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
       recognition.continuous = true;
-      recognition.interimResults = true;
+      recognition.interimResults = false;
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
