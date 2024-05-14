@@ -6,14 +6,11 @@ const Home = () => {
     <div>
       <div className='header'>
         <p className='logo'>Write</p>
-        <ul>
-          <li><Link to='/signin' style={{textDecoration: 'none', color:'white'}}>Sign In</Link></li>
-          <li><Link to='/register' style={{textDecoration: 'none', color:'white'}}>Register</Link></li>
-        </ul>
+        
       </div>
       <div className='title'>
         <h1>JOT THINGS DOWN. <span>📝</span></h1>
-        <button>Get started</button>
+        <Link to='/register' style={{textDecoration: 'none', color:'black'}}><button>Get started</button></Link>
       </div>
     </div>
   )
