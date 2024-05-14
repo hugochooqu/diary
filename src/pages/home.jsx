@@ -1,17 +1,13 @@
-import React from 'react'
+import React, {Suspense, lazy} from 'react'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
+  const Body = lazy(() => import('../components/HomeBody'))
   return (
     <div>
-      <div className='header'>
-        <p className='logo'>Write</p>
-        
-      </div>
-      <div className='title'>
-        <h1>JOT THINGS DOWN. <span>📝</span></h1>
-        <Link to='/register' style={{textDecoration: 'none', color:'black'}}><button>Get started</button></Link>
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Body />
+      </Suspense>
     </div>
   )
 }
