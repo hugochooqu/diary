@@ -9,8 +9,8 @@ main {
   width: 100vw;
   /* background-color: rgb(26, 202, 202);
   background-image: linear-gradient(to right, rgb(35, 202, 202), pink); */
-  background-image: url('./assets/horizontal-view-closed-blue-notebook-pen-lying-white-background.jpg');
-  background-size:  cover;
+  background-image: url("./assets/horizontal-view-closed-blue-notebook-pen-lying-white-background.jpg");
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -319,7 +319,6 @@ textarea {
   grid-template-columns: 30% 30% 30%;
   gap: -10px 100px;
   z-index: 0;
- 
 }
 
 .entry-tile {
@@ -457,7 +456,6 @@ textarea {
   top: 50px;
   left: 100px;
   margin: 0%;
-  
 }
 
 .trash-tile {
@@ -503,22 +501,22 @@ textarea {
   animation: slide-down 300ms ease-out forwards;
 }
 
-.view-profile{
+.view-profile {
   padding: 40px;
 }
 
-.view-profile input{
-width: 18vw;
-height: 30px;
+.view-profile input {
+  width: 18vw;
+  height: 30px;
 }
 
-.profile-input{
+.profile-input {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.coming-soon{
+.coming-soon {
   font-size: 1.5rem;
   margin: 0;
   padding: 0;
@@ -531,6 +529,25 @@ height: 30px;
   flex-direction: column;
   gap: 30px;
 }
+.loading {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(35, 202, 202);
+}
+.loading h3 {
+  font-size: 1.3rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: rgb(35, 202, 202);
+}
 @media (min-width: 768px) {
   .modal {
     width: 40rem;
@@ -538,51 +555,47 @@ height: 30px;
   }
 }
 
+@media (max-width: 767px) {
+  .signin {
+    width: 100%;
+    height: 100%;
+  }
 
+  .signin-box {
+    width: 70%;
+    height: auto;
+  }
 
-@media(max-width: 767px) {
- .signin {
-  width: 100%;
-  height: 100%;
- }
+  .signin-box input {
+    width: 95%;
+  }
 
- .signin-box{
-  width: 70%;
-  height: auto;
- }
+  .signin-box p {
+    padding-bottom: 20px;
+  }
 
- .signin-box input{
-  width: 95%;
- }
+  .entry-tiles {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 20px;
+    padding-bottom: 100px;
+  }
 
- .signin-box p{
-  padding-bottom: 20px;
- }
-
- .entry-tiles {
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 20px;
-  padding-bottom: 100px;
-  
-}
-
-.dashboard-main-main {
-  overflow: hidden;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  padding-left: 10px;
-  padding-top: 70px;
-}
-.main{
-  position: absolute;
-  left: 85px;
-  top: 100px;
-}
-.entry-tile{
-  width: 90%;
-}
-
+  .dashboard-main-main {
+    overflow: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    padding-left: 10px;
+    padding-top: 70px;
+  }
+  .main {
+    position: absolute;
+    left: 85px;
+    top: 100px;
+  }
+  .entry-tile {
+    width: 90%;
+  }
 }
 
 @keyframes slide-down {
