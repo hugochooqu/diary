@@ -116,16 +116,7 @@ const EntryDetails = () => {
   };
 
 
-  const shareOnFacebook = () => {
-    window.FB.ui(
-      {
-        method: "share",
-        href: url,
-        quote: formData.title,
-      },
-      (response) => console.log(response)
-    );
-  };
+  
   return (
     <div >
       {crud === "view" ? (
