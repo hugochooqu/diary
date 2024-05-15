@@ -45,7 +45,7 @@ const EntryDetails = () => {
         if (docSnap.exists()) {
           const entry = { ...docSnap.data(), id: docSnap.id };
           setEntryData(entry);
-          setFormData({ title: entry.title, image: entry.imageURL });
+          setFormData({ title: entry.title, image: entry?.imageURL });
         } else {
           console.log("Document not found");
         }
@@ -67,7 +67,7 @@ const EntryDetails = () => {
     var encryptedData = entryData.encryptedData;
     var key = entryData.key;
     var iv = entryData?.iv;
-    var image = entryData.imageURL;
+    var image = entryData?.imageURL;
     // Perform decryption here
     const decipher = forge.cipher.createDecipher("AES-CBC", key);
     decipher.start({ iv: iv });
@@ -79,6 +79,7 @@ const EntryDetails = () => {
     console.log("Key is not available yet. Waiting...");
   }
 
+  console.log(image)
   if (entryData !== null && entryData.key !== undefined) {
     // Perform decryption here
     const cipher = forge.cipher.createCipher("AES-CBC", key);
@@ -125,7 +126,7 @@ const EntryDetails = () => {
           <TextToSpeech entry={decryptedData} />
           {loading ? <p>Loading...</p> : <h1>{title}</h1>}
           <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
-           {image === null && <img src={image} alt="ima" />} 
+           {image !== null && <img src={image} alt="ima" />} 
           </div>
           <p>{decryptedData}</p>
           
