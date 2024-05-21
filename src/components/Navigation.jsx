@@ -17,11 +17,18 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { getAuth, reauthenticateWithCredential, signOut } from "@firebase/auth";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("home");
   const { theme, setIsOpen, toggleTheme, isOpen, showProfileHandler } = useContext(stateContext);
 
+  const [confirmPassword, setConfirmPassword] = useState(false);
+  const [password, setPassword] = useState("");
+
+  const auth = getAuth()
+  const user = auth?.currentUser
   const navigate = useNavigate()
   const currentUser = useAuth();
   console.log(currentUser?.photoURL)
@@ -55,11 +62,67 @@ const Navigation = () => {
     // setUserId(params.get("id"));
   });
 
+  // const handleSignOut = () => {
+  //   SignOut()
+  //     .then(() => {
+  //       navigate('/signin');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error signing out:', error);
+  //       // Handle error if necessary
+  //     });
+  // };
+
   const handleSignOut = () => {
-    SignOut(() => {
-      navigate('/signin')
+    signOut(auth)
+      .then(() => {
+        console.log("successful");
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const reauthenticateUser = async (password) => {
+    console.log(user, password)
+    reauthenticateWithCredential(user, password).then(() => {
+      console.log('reauthentication successful')
+    }).catch ((error) => {
+      console.log('An error occured: ',error)
     })
   }
+
+  const deleteUserAccount = async (password) => {
+    try {
+      const reauthenticate = await reauthenticateUser(password);
+      console.log(reauthenticate)
+      if (reauthenticate) {
+        console.log('true')
+        // await deleteUser(user);
+        // console.log("User account deleted successfully");
+      } else {
+        console.log("Failed to re-authenticate user");
+      }
+    } catch (error) {
+      console.error("Error deleting user account: ", error);
+    }
+    // if (confirmDelete) {
+    //   deleteUser(user)
+    //     .then(() => {
+    //       // User deleted
+    //       console.log("successful");
+    //       redirect("/signin");
+    //     })
+    //     .catch((error) => {
+    //       window.alert("an error occured");
+    //       console.log(error);
+    //     });
+    // }
+  };
+
+console.log(confirmPassword);
+
 
   return (
     <div className={`dashboard ${theme}`}>
@@ -170,6 +233,36 @@ const Navigation = () => {
               </li>
             </Link>
 
+            
+          <button
+            onClick={() => {
+              setConfirmPassword(!confirmPassword);
+            }}
+          >
+            Delete Account
+          </button>
+          {confirmPassword && (
+            <div className="reauthenticate">
+              <AiFillCloseCircle
+                onClick={() => {
+                  setConfirmPassword(!confirmPassword);
+                }}
+              />
+              <form onSubmit={deleteUserAccount}>
+                <label>Confirm Password</label>
+                <div style={{ display: "flex", gap: "20px" }}>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button type="submit">Done</button>
+                </div>
+              </form>
+              </div>
+          )}
            
           </ul>
         </div>

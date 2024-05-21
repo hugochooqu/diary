@@ -1,10 +1,16 @@
 import { initializeApp } from "@firebase/app";
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "@firebase/auth";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from "@firebase/auth";
 import { redirect, useNavigate } from "react-router-dom";
-import { getDatabase} from '@firebase/database'
+import { getDatabase } from "@firebase/database";
 import { useEffect, useState } from "react";
 import { getFirestore } from "@firebase/firestore";
-import {getStorage} from '@firebase/storage'
+import { getStorage } from "@firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDqeHvPqQo02FgOJfP4J6qoDSyLQvhLDb4",
@@ -15,23 +21,29 @@ const firebaseConfig = {
   messagingSenderId: "289009863308",
   appId: "1:289009863308:web:bc5b6d2b62aa4bc93f49a9",
   measurementId: "G-0RNWHKR2LG",
-  storageBucket: 'gs://diary-26866.appspot.com'
+  storageBucket: "gs://diary-26866.appspot.com",
 };
 
 const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app)
+export const database = getDatabase(app);
 
-export const db = getFirestore(app)
+export const db = getFirestore(app);
 
 const auth = getAuth(app);
 
-export function SignOut (){
-  signOut(auth).then(() => {
-    console.log('successful')
-    redirect('/')
-  }).catch((err) => {
-    console.log(err)
-  })
+export function SignOut() {
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("successful");
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 }
 
 const SignInWithGoogle = async (redirectCallback) => {
@@ -43,7 +55,7 @@ const SignInWithGoogle = async (redirectCallback) => {
 
     console.log(user);
 
-    redirectCallback()
+    redirectCallback();
   } catch (error) {
     console.error("Error signing in with google", error);
   }
@@ -57,10 +69,9 @@ export function useAuth() {
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
-    })
-    return () => unsubscribe()
-  }, [])
-  return currentUser
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+  return currentUser;
 }
-

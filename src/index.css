@@ -343,6 +343,28 @@ textarea {
   text-align: center;
 }
 
+.entry-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 0;
+  
+}
+
+.entry-list{
+  height: 10vh;
+  width: 95%;
+  border: 1px solid rgb(35, 202, 202);
+  gap: 5px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+
+}
+.entry-list p{
+  text-decoration: underline;
+  text-transform:uppercase;
+}
 .entry-detail {
   position: relative;
   top: 60px;
@@ -547,6 +569,28 @@ textarea {
   flex-direction: column;
   gap: 30px;
   background-color: rgb(35, 202, 202);
+}
+
+.reauthenticate{
+  width: 50%;
+  height: 24vh;
+  background-color: black;
+  z-index: 30px;
+  position: absolute;
+  top: 230px;
+  left: 150px;
+}
+
+.reauthenticate form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 40px;
+}
+
+.reauthenticate input{
+  width: 70%;
+  height: 30px;
 }
 @media (min-width: 768px) {
   .modal {
