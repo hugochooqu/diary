@@ -25,7 +25,7 @@ import {
 import { Tooltip } from "react-tooltip";
 
 const Entry = () => {
-  const { loading, data, theme } = useContext(stateContext);
+  const { loading, data, theme, grid } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
 
@@ -33,7 +33,6 @@ const Entry = () => {
   const userId = currentUser?.uid;
   console.log(userId);
 
- 
   const moveEntryToTrash = async (entryId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to move to trash?"
@@ -120,123 +119,161 @@ const Entry = () => {
               </Link>
             </p>
           )}
-          {/* <div className="entry-tiles">
-            {data.map((entry, index) => (
-              <div className="entry-tile" key={entry.id}>
-                <p>{entry.title.slice(0, 15)}{entry.title.length > 15 && '...'}</p>
-                <Decrypt
-                  className="decrypt"
-                  encryptedData={entry.encryptedData}
-                  decryptKey={entry.key}
-                  iv={entry.iv}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "20px",
-                    position: "relative",
-                    bottom: "-10px",
-                    left: "50px",
-                  }}
-                >
-                  <FaHeart
-                  className="favorite"
-                    onClick={() => handleFavorite(entry.id)}
-                    color={entry.isFavorite === true ? "red" :`${theme === 'dark'? 'white' : 'black'}`}
+          {}
+          {/*  */}
+          {grid ? (
+            <div className="entry-tiles">
+              {data.map((entry, index) => (
+                <div className="entry-tile" key={entry.id}>
+                  <p>
+                    {entry.title.slice(0, 15)}
+                    {entry.title.length > 15 && "..."}
+                  </p>
+                  <Decrypt
+                    className="decrypt"
+                    encryptedData={entry.encryptedData}
+                    decryptKey={entry.key}
+                    iv={entry.iv}
                   />
-                  <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
-                  <Link
-                    to={`${"view"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}` }}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "20px",
+                      position: "relative",
+                      bottom: "-10px",
+                      left: "50px",
+                    }}
                   >
-                    <FaEye  className="view" />
-                  </Link>
-                  <Tooltip anchorSelect=".view">View</Tooltip>
-                  <Link
-                    to={`${"edit"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}`}}
-                  >
-                    <FaPen className="edit" />
-                  </Link>
-                  <Tooltip anchorSelect=".edit">Edit</Tooltip>
-                  <FaTrash
-                    onClick={() => moveEntryToTrash(entry.id)}
-                    className="delete"
-                  />
-                  <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
-                  <FaEllipsisV onClick={() => toggleDropdown(index)} />
-                  {isOpen[index] && (
-                    <ul className={`toggle-menu ${theme}`}>
-                      <li onClick={() => handlePublic(entry.id, index)}>
-                        {entry.isPublic ? "Make Private" : "Make Public"}
-                      </li>
-                    </ul>
-                  )}
+                    <FaHeart
+                      className="favorite"
+                      onClick={() => handleFavorite(entry.id)}
+                      color={
+                        entry.isFavorite === true
+                          ? "red"
+                          : `${theme === "dark" ? "white" : "black"}`
+                      }
+                    />
+                    <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
+                    <Link
+                      to={`${"view"}/${entry.id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: `${theme === "dark" ? "white" : "black"}`,
+                      }}
+                    >
+                      <FaEye className="view" />
+                    </Link>
+                    <Tooltip anchorSelect=".view">View</Tooltip>
+                    <Link
+                      to={`${"edit"}/${entry.id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: `${theme === "dark" ? "white" : "black"}`,
+                      }}
+                    >
+                      <FaPen className="edit" />
+                    </Link>
+                    <Tooltip anchorSelect=".edit">Edit</Tooltip>
+                    <FaTrash
+                      onClick={() => moveEntryToTrash(entry.id)}
+                      className="delete"
+                    />
+                    <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
+                    <FaEllipsisV onClick={() => toggleDropdown(index)} />
+                    {isOpen[index] && (
+                      <ul className={`toggle-menu ${theme}`}>
+                        <li onClick={() => handlePublic(entry.id, index)}>
+                          {entry.isPublic ? "Make Private" : "Make Public"}
+                        </li>
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div> */}
-          <div className="entry-lists">
-            {data.map((entry, index) => (
-              <div className="entry-list" key={index}>
-                <Link
+              ))}
+            </div>
+          ) : (
+            <div className="entry-lists">
+              {data.map((entry, index) => (
+                <div className="entry-list" key={index}>
+                  <Link
                     to={`${"view"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}` }}
+                    style={{
+                      width: "40px",
+                      textDecoration: "none",
+                      color: `${theme === "dark" ? "white" : "black"}`,
+                    }}
                   >
-                    <p>{entry.title.slice(0, 15)}{entry.title.length > 15 && '...'}</p>
+                    <p>
+                      {entry.title.slice(0, 15)}
+                      {entry.title.length > 15 && "..."}
+                    </p>
                   </Link>
-                
-                <Decrypt
-                  className="decrypt"
-                  encryptedData={entry.encryptedData}
-                  decryptKey={entry.key}
-                  iv={entry.iv}
-                />
-                 <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "20px",
-                    position: "relative",
-                    top: "-25px",
-                    left: "800px",
-                  }}
-                >
-                  <FaHeart
-                  className="favorite"
-                    onClick={() => handleFavorite(entry.id)}
-                    color={entry.isFavorite === true ? "red" :`${theme === 'dark'? 'white' : 'black'}`}
-                  />
-                  <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
-                 <span onClick={() => handlePublic(entry.id, index)}>{entry.isPublic ? <FaEye  className="private" /> : <FaEyeSlash className="public" /> }</span> 
-                  <Tooltip anchorSelect=".private">Make Private</Tooltip>
-                  <Tooltip anchorSelect=".public">Make Public</Tooltip>
 
-                  <Link
-                    to={`${"edit"}/${entry.id}`}
-                    style={{ textDecoration: "none", color: `${theme === 'dark'? 'white' : 'black'}`}}
-                  >
-                    <FaPen className="edit" />
-                  </Link>
-                  <Tooltip anchorSelect=".edit">Edit</Tooltip>
-                  <FaTrash
-                    onClick={() => moveEntryToTrash(entry.id)}
-                    className="delete"
+                  <Decrypt
+                    className="decrypt"
+                    encryptedData={entry.encryptedData}
+                    decryptKey={entry.key}
+                    iv={entry.iv}
                   />
-                  <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
-                  <FaEllipsisV onClick={() => toggleDropdown(index)} />
-                  {isOpen[index] && (
-                    <ul className={`toggle-menu ${theme}`}>
-                      <li onClick={() => handlePublic(entry.id, index)}>
-                        {entry.isPublic ? "Make Private" : "Make Public"}
-                      </li>
-                    </ul>
-                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "20px",
+                      position: "relative",
+                      top: "-25px",
+                      left: "800px",
+                    }}
+                  >
+                    <FaHeart
+                      className="favorite"
+                      onClick={() => handleFavorite(entry.id)}
+                      color={
+                        entry.isFavorite === true
+                          ? "red"
+                          : `${theme === "dark" ? "white" : "black"}`
+                      }
+                    />
+                    <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
+                    <span onClick={() => handlePublic(entry.id, index)}>
+                      {entry.isPublic ? (
+                        <FaEye className="private" />
+                      ) : (
+                        <FaEyeSlash className="public" />
+                      )}
+                    </span>
+                    <Tooltip anchorSelect=".private">Make Private</Tooltip>
+                    <Tooltip anchorSelect=".public">Make Public</Tooltip>
+
+                    <Link
+                      to={`${"edit"}/${entry.id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: `${theme === "dark" ? "white" : "black"}`,
+                      }}
+                    >
+                      <FaPen className="edit" />
+                    </Link>
+                    <Tooltip anchorSelect=".edit">Edit Entry</Tooltip>
+                    <FaTrash
+                      onClick={() => moveEntryToTrash(entry.id)}
+                      className="delete"
+                    />
+                    <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
+                    <FaEllipsisV onClick={() => toggleDropdown(index)} />
+                    {isOpen[index] && (
+                      <ul className={`toggle-menu ${theme}`}>
+                        <li onClick={() => handlePublic(entry.id, index)}>
+                          {entry.isPublic ? "Make Private" : "Make Public"}
+                        </li>
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

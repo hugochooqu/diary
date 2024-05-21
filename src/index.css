@@ -201,7 +201,7 @@ button {
 }
 
 .light {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(238, 229, 229);
   color: rgb(34, 33, 33);
 }
 
@@ -359,11 +359,14 @@ textarea {
   padding: 5px 10px;
   display: flex;
   flex-direction: column;
+  animation: slide-down 300ms ease-out forwards;
+
 
 }
 .entry-list p{
   text-decoration: underline;
   text-transform:uppercase;
+  width: 10vw;
 }
 .entry-detail {
   position: relative;

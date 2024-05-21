@@ -10,6 +10,8 @@ function UseFetch(collectionName) {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isOpen, setIsOpen] = useState(false);
   const [profileIsShown, setProfileIsShown] = useState(false);
+  const [grid, setGrid] = useState(true)
+
 
   const showProfileHandler = () => {
     setProfileIsShown(!profileIsShown);
@@ -97,6 +99,8 @@ function UseFetch(collectionName) {
     toggleTheme,
     showProfileHandler,
     profileIsShown,
+    grid,
+    setGrid
   };
 }
 

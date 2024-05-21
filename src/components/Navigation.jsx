@@ -9,6 +9,7 @@ import {
   FaHeart,
   FaHome,
   FaLightbulb,
+  FaList,
   FaMoon,
   FaSignOutAlt,
   FaSun,
@@ -19,19 +20,29 @@ import {
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getAuth, reauthenticateWithCredential, signOut } from "@firebase/auth";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { FaGrip } from "react-icons/fa6";
+import {Tooltip} from 'react-tooltip'
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("home");
-  const { theme, setIsOpen, toggleTheme, isOpen, showProfileHandler } = useContext(stateContext);
+  const {
+    theme,
+    setIsOpen,
+    toggleTheme,
+    isOpen,
+    showProfileHandler,
+    setGrid,
+    grid,
+  } = useContext(stateContext);
 
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
 
-  const auth = getAuth()
-  const user = auth?.currentUser
-  const navigate = useNavigate()
+  const auth = getAuth();
+  const user = auth?.currentUser;
+  const navigate = useNavigate();
   const currentUser = useAuth();
-  console.log(currentUser?.photoURL)
+  console.log(currentUser?.photoURL);
 
   const handleLinkClink = (link) => {
     setActiveLink(link);
@@ -55,8 +66,8 @@ const Navigation = () => {
       setActiveLink("trash");
     } else if (location.includes("public")) {
       setActiveLink("public");
-    } else if (location.includes('reminders')) {
-      setActiveLink('reminders')
+    } else if (location.includes("reminders")) {
+      setActiveLink("reminders");
     }
 
     // setUserId(params.get("id"));
@@ -85,20 +96,22 @@ const Navigation = () => {
   };
 
   const reauthenticateUser = async (password) => {
-    console.log(user, password)
-    reauthenticateWithCredential(user, password).then(() => {
-      console.log('reauthentication successful')
-    }).catch ((error) => {
-      console.log('An error occured: ',error)
-    })
-  }
+    console.log(user, password);
+    reauthenticateWithCredential(user, password)
+      .then(() => {
+        console.log("reauthentication successful");
+      })
+      .catch((error) => {
+        console.log("An error occured: ", error);
+      });
+  };
 
   const deleteUserAccount = async (password) => {
     try {
       const reauthenticate = await reauthenticateUser(password);
-      console.log(reauthenticate)
+      console.log(reauthenticate);
       if (reauthenticate) {
-        console.log('true')
+        console.log("true");
         // await deleteUser(user);
         // console.log("User account deleted successfully");
       } else {
@@ -121,8 +134,7 @@ const Navigation = () => {
     // }
   };
 
-console.log(confirmPassword);
-
+  console.log(confirmPassword);
 
   return (
     <div className={`dashboard ${theme}`}>
@@ -187,7 +199,8 @@ console.log(confirmPassword);
                 className={activeLink === "reminders" ? "active" : "inactive"}
                 onClick={() => handleLinkClink("reminders")}
               >
-                <FaBell color={activeLink === "reminders" ? "gold" : null} /> Reminders
+                <FaBell color={activeLink === "reminders" ? "gold" : null} />{" "}
+                Reminders
               </li>
             </Link>
             <Link
@@ -233,45 +246,49 @@ console.log(confirmPassword);
               </li>
             </Link>
 
-            
-          <button
-            onClick={() => {
-              setConfirmPassword(!confirmPassword);
-            }}
-          >
-            Delete Account
-          </button>
-          {confirmPassword && (
-            <div className="reauthenticate">
-              <AiFillCloseCircle
-                onClick={() => {
-                  setConfirmPassword(!confirmPassword);
-                }}
-              />
-              <form onSubmit={deleteUserAccount}>
-                <label>Confirm Password</label>
-                <div style={{ display: "flex", gap: "20px" }}>
-                  <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <button type="submit">Done</button>
-                </div>
-              </form>
+            <button
+              onClick={() => {
+                setConfirmPassword(!confirmPassword);
+              }}
+            >
+              Delete Account
+            </button>
+            {confirmPassword && (
+              <div className="reauthenticate">
+                <AiFillCloseCircle
+                  onClick={() => {
+                    setConfirmPassword(!confirmPassword);
+                  }}
+                />
+                <form onSubmit={deleteUserAccount}>
+                  <label>Confirm Password</label>
+                  <div style={{ display: "flex", gap: "20px" }}>
+                    <input
+                      type="password"
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <button type="submit">Done</button>
+                  </div>
+                </form>
               </div>
-          )}
-           
+            )}
           </ul>
         </div>
-        
       </div>
       <div className="dashboard-main">
         <div className="dashboard-header">
           <h1>DEE YA</h1>
           <div style={{ display: "flex", flexDirection: "row" }}>
+            <span onClick={() => setGrid(!grid)}>
+              {grid ?<FaList className="list" /> :<FaGrip className="grid" />  }
+              <Tooltip anchorSelect=".grid">Grid view</Tooltip>
+              <Tooltip anchorSelect=".list">List view</Tooltip>
+
+            
+            </span>
             <FaCog
               style={{ padding: "20px 0px", cursor: "pointer" }}
               size={25}
@@ -281,13 +298,40 @@ console.log(confirmPassword);
           </div>
           {isOpen && (
             <ul className={`dropdown-menu ${theme}`}>
-              <li onClick={() => {showProfileHandler(); handleOptionSelect();}}><FaUser />  View profile</li>
-              <li onClick={() => {handleOptionSelect(); toggleTheme()} }>
+              <li
+                onClick={() => {
+                  showProfileHandler();
+                  handleOptionSelect();
+                }}
+              >
+                <FaUser /> View profile
+              </li>
+              <li
+                onClick={() => {
+                  handleOptionSelect();
+                  toggleTheme();
+                }}
+              >
                 <span>
-                {theme =='dark'? <span><FaSun /> Light mode</span>: <span><FaMoon /> Dark mode</span>}
+                  {theme == "dark" ? (
+                    <span>
+                      <FaSun /> Light mode
+                    </span>
+                  ) : (
+                    <span>
+                      <FaMoon /> Dark mode
+                    </span>
+                  )}
                 </span>
               </li>
-              <li onClick={() => {handleOptionSelect(); handleSignOut();}}><FaSignOutAlt />  Logout</li>
+              <li
+                onClick={() => {
+                  handleOptionSelect();
+                  handleSignOut();
+                }}
+              >
+                <FaSignOutAlt /> Logout
+              </li>
             </ul>
           )}
         </div>

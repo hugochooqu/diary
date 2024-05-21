@@ -108,6 +108,8 @@ function App() {
     toggleTheme,
     showProfileHandler,
     profileIsShown,
+    grid,
+    setGrid
   } = UseFetch("Entries");
   return (
     <main>
@@ -128,6 +130,8 @@ function App() {
           toggleTheme,
           showProfileHandler,
           profileIsShown,
+          grid,
+          setGrid
         }}
       >
         <RouterProvider router={router} />
