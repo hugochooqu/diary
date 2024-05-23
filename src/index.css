@@ -216,6 +216,8 @@ left: -40px;
   top: 13%;
   border-radius: 10px 10px 0px 0px;
   border: solid 1px rgb(35, 202, 202);
+  animation: slide-down 300ms ease-out forwards;
+
 
 }
 
@@ -403,8 +405,8 @@ textarea {
   padding: 20px 40px;
   overflow-y: scroll;
   scrollbar-width: none;
-  background-color: #292727;
-  color: white;
+  background-color: transparent;
+  /* color: white; */
 }
 
 .entry-detail h1 {

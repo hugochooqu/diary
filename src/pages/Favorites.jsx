@@ -89,9 +89,9 @@ const Favorites = () => {
                     to={`/dashboard/${"view"}/${fav.id}`}
                     style={{ textDecoration: "none", color: "black" }}
                   >
-                    <FaEye title="view" className="view" />
+                    <FaEye title="views" className="view" />
                   </Link>
-                  <Tooltip anchorSelect=".view">View</Tooltip>
+                  <Tooltip anchorSelect=".views">View</Tooltip>
                   <Link
                     to={`/dashboard/${"edit"}/${fav.id}`}
                     style={{ textDecoration: "none", color: "black" }}

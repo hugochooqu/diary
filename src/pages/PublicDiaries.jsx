@@ -68,9 +68,9 @@ const PublicDiaries = () => {
                 to={`/dashboard/${"view"}/${fav.id}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <FaEye title="view" className="view" />
+                <FaEye title="view" className="views" />
               </Link >
-              <Tooltip anchorSelect=".view">View</Tooltip>
+              <Tooltip anchorSelect=".views">View</Tooltip>
               <Link onClick={handleReply} style={{ textDecoration: "none", color: "black" }}>
                 <FaPaperPlane title="reply" className="reply"/>
               </Link>
