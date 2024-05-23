@@ -15,7 +15,7 @@ import Crypto from "crypto-js";
 import { FaArrowLeft, FaPen } from "react-icons/fa";
 import TextToSpeech from "../components/TextToSpeech";
 
-const EntryDetails = () => {
+const EntryDetails = (props) => {
   const { crud, id } = useParams();
   const [entryData, setEntryData] = useState(null);
   const [formData, setFormData] = useState({
@@ -24,22 +24,25 @@ const EntryDetails = () => {
     image: "",
   });
   const { setLoading, loading } = useContext(stateContext);
-
-  const history = useNavigate()
+  var entryId = props.index;
+  console.log(entryId);
+  const history = useNavigate();
 
   const Back = () => {
-    history(-1)
-  }
+    history(-1);
+  };
 
   const location = useLocation();
   const url = window.location.origin + location.pathname;
 
   useEffect(() => {
-    setLoading(true);
+    const fetchDocument = async (entryId) => {
+      if (!entryId) return;
+      console.log(entryId);
+      // setLoading(true);
 
-    const fetchDocument = async () => {
       try {
-        const docRef = doc(db, "Entries", id);
+        const docRef = doc(db, "Entries", entryId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -56,8 +59,8 @@ const EntryDetails = () => {
       }
     };
 
-    fetchDocument();
-  }, []);
+    fetchDocument(entryId);
+  }, [entryId]);
 
   console.log(formData.image);
 
@@ -79,7 +82,7 @@ const EntryDetails = () => {
     console.log("Key is not available yet. Waiting...");
   }
 
-  console.log(image)
+  console.log(image);
   if (entryData !== null && entryData.key !== undefined) {
     // Perform decryption here
     const cipher = forge.cipher.createCipher("AES-CBC", key);
@@ -116,23 +119,31 @@ const EntryDetails = () => {
     }
   };
 
+  // style={{height: '420px', width: '520px', borderRadius: "10px"}}
+  if (loading) return <div>Loading...</div>;
 
-  
   return (
-    <div >
-      {crud === "view" ? (
-        <div className="entry-detail" style={{height: '420px', width: '520px', borderRadius: "10px"}}>
-          <p onClick={Back} style={{cursor:'pointer'}}><FaArrowLeft/> Back</p>
-          <TextToSpeech entry={decryptedData} />
-          {loading ? <p>Loading...</p> : <h1>{title}</h1>}
-          <div style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
-           {image !== null && <img src={image} alt="ima" />} 
-          </div>
-          <p>{decryptedData}</p>
-          
+    <div>
+      {/* {crud === "view" ? ( */}
+      <div className="entry-detail">
+        {/* <p onClick={Back} style={{ cursor: "pointer" }}>
+          <FaArrowLeft /> Back
+        </p> */}
+        <TextToSpeech entry={decryptedData} />
+        {loading ? <p>Loading...</p> : <h1>{title}</h1>}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {image !== null && <img src={image} alt="ima" />}
         </div>
-      ) : null}
-      {crud === "edit" ? (
+        <p>{decryptedData}</p>
+      </div>
+      {/* ) : null} */}
+      {/* {crud === "edit" ? (
         <div className="add-entry">
           <form onSubmit={handleSubmit}>
             <input
@@ -155,7 +166,7 @@ const EntryDetails = () => {
             <button type="submit">Submit</button>
           </form>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

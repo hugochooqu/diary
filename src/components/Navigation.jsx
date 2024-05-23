@@ -246,35 +246,8 @@ const Navigation = () => {
               </li>
             </Link>
 
-            <button
-              onClick={() => {
-                setConfirmPassword(!confirmPassword);
-              }}
-            >
-              Delete Account
-            </button>
-            {confirmPassword && (
-              <div className="reauthenticate">
-                <AiFillCloseCircle
-                  onClick={() => {
-                    setConfirmPassword(!confirmPassword);
-                  }}
-                />
-                <form onSubmit={deleteUserAccount}>
-                  <label>Confirm Password</label>
-                  <div style={{ display: "flex", gap: "20px" }}>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                    <button type="submit">Done</button>
-                  </div>
-                </form>
-              </div>
-            )}
+            
+            
           </ul>
         </div>
       </div>
@@ -282,9 +255,9 @@ const Navigation = () => {
         <div className="dashboard-header">
           <h1>DEE YA</h1>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <span onClick={() => setGrid(!grid)}>
-              {grid ?<FaList className="list" /> :<FaGrip className="grid" />  }
-              <Tooltip anchorSelect=".grid">Grid view</Tooltip>
+            <span className="grid" onClick={() => setGrid(!grid)}>
+              {grid ?<FaList className="list" size={20} /> :<FaGrip className="grids" size={20} />  }
+              <Tooltip anchorSelect=".grids">Grid view</Tooltip>
               <Tooltip anchorSelect=".list">List view</Tooltip>
 
             

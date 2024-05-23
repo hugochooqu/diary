@@ -23,16 +23,24 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
+import { AiFillCloseCircle } from "react-icons/ai";
+import EntryDetails from "./entryDetails";
 
 const Entry = () => {
   const { loading, data, theme, grid } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
+  const [read, setRead] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null)
+  const [entryId, setEntryId] = useState('')
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
 
+  const handleTileClick = (index) => {
+    setActiveIndex(index)
+  }
   const moveEntryToTrash = async (entryId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to move to trash?"
@@ -122,13 +130,22 @@ const Entry = () => {
           {}
           {/*  */}
           {grid ? (
-            <div className="entry-tiles">
+            <div className={`${read ? "changeGrid" : "entry-tiles"}`}>
               {data.map((entry, index) => (
-                <div className="entry-tile" key={entry.id}>
-                  <p>
+                <div className="entry-tile" key={entry.id} style={{backgroundColor: activeIndex === index? 'rgb(136, 136, 136)' : 'rgb(35, 202, 202)'}}>
+                  {/* <Link
+                    to={`${"view"}/${entry.id}`}
+                    style={{
+                      
+                      textDecoration: "none",
+                      color: `${theme === "dark" ? "white" : "black"}`, 
+                    }}
+                  > */}
+                  <p className="entry-title" onClick={() => {setRead(true); handleTileClick(index); setEntryId(entry.id)}}>
                     {entry.title.slice(0, 15)}
                     {entry.title.length > 15 && "..."}
                   </p>
+                  {/* </Link> */}
                   <Decrypt
                     className="decrypt"
                     encryptedData={entry.encryptedData}
@@ -155,16 +172,15 @@ const Entry = () => {
                       }
                     />
                     <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
-                    <Link
-                      to={`${"view"}/${entry.id}`}
-                      style={{
-                        textDecoration: "none",
-                        color: `${theme === "dark" ? "white" : "black"}`,
-                      }}
-                    >
-                      <FaEye className="view" />
-                    </Link>
-                    <Tooltip anchorSelect=".view">View</Tooltip>
+                    <span onClick={() => handlePublic(entry.id, index)}>
+                      {entry.isPublic ? (
+                        <FaEye className="private" />
+                      ) : (
+                        <FaEyeSlash className="public" />
+                      )}
+                    </span>
+                    <Tooltip anchorSelect=".private">Make Private</Tooltip>
+                    <Tooltip anchorSelect=".public">Make Public</Tooltip>
                     <Link
                       to={`${"edit"}/${entry.id}`}
                       style={{
@@ -272,6 +288,12 @@ const Entry = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {read && (
+            <div className="view">
+              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null)}} style={{padding: '20px 10px'}} />
+              <EntryDetails index={entryId} />
             </div>
           )}
         </div>

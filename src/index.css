@@ -195,6 +195,30 @@ button {
   padding-top: 70px;
 }
 
+.grid{
+  position: relative;
+left: -40px;
+  top: 20px;
+}
+
+.changeGrid{
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 10px;
+}
+
+.view{
+  height: 77.8vh;
+  width: 47vw;
+  background-color: transparent;
+  position: absolute;
+  left: 35%;
+  top: 13%;
+  border-radius: 10px 10px 0px 0px;
+  border: solid 1px rgb(35, 202, 202);
+
+}
+
 .dark {
   background-color: rgb(43, 40, 40);
   color: white;
@@ -322,7 +346,7 @@ textarea {
 }
 
 .entry-tile {
-  width: 70%;
+  width: 16vw;
   border-radius: 0;
   /* box-shadow: 0px 10px 8px #999; */
   display: flex;
@@ -337,10 +361,11 @@ textarea {
   z-index: 0;
 }
 
-.entry-tile p {
+.entry-title {
   font-size: larger;
-  text-transform: capitalize;
+  text-transform: uppercase;
   text-align: center;
+  text-decoration: underline;
 }
 
 .entry-lists {
@@ -370,11 +395,11 @@ textarea {
 }
 .entry-detail {
   position: relative;
-  top: 60px;
-  width: 30%;
+  /* top: 60px; */
+  /* width: 30%; */
   margin: auto auto;
-  height: 70%;
-  border: solid 1px teal;
+  /* height: 70%; */
+  /* border: solid 1px teal; */
   padding: 20px 40px;
   overflow-y: scroll;
   scrollbar-width: none;
