@@ -18,6 +18,8 @@ import {
   FaEyeSlash,
   FaHamburger,
   FaHeart,
+  FaLock,
+  FaLockOpen,
   FaPen,
   FaRibbon,
   FaTrash,
@@ -28,16 +30,26 @@ import EntryDetails from "./entryDetails";
 import { set } from "@firebase/database";
 
 const Entry = () => {
-  const { loading, data, theme, grid, read, setRead, activeIndex, handleTileClick,edit, setEdit } = useContext(stateContext);
+  const {
+    loading,
+    data,
+    theme,
+    grid,
+    read,
+    setRead,
+    activeIndex,
+    handleTileClick,
+    edit,
+    setEdit,
+  } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
-  const [entryId, setEntryId] = useState('')
+  const [entryId, setEntryId] = useState("");
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
 
-  
   const moveEntryToTrash = async (entryId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to move to trash?"
@@ -129,7 +141,16 @@ const Entry = () => {
           {grid ? (
             <div className={`${read || edit ? "changeGrid" : "entry-tiles"}`}>
               {data.map((entry, index) => (
-                <div className="entry-tile" key={entry.id} style={{backgroundColor: activeIndex === index? 'rgb(136, 136, 136)' : 'rgb(35, 202, 202)'}}>
+                <div
+                  className="entry-tile"
+                  key={entry.id}
+                  style={{
+                    backgroundColor:
+                      activeIndex === index
+                        ? "rgb(136, 136, 136)"
+                        : "rgb(35, 202, 202)",
+                  }}
+                >
                   {/* <Link
                     to={`${"view"}/${entry.id}`}
                     style={{
@@ -138,7 +159,7 @@ const Entry = () => {
                       color: `${theme === "dark" ? "white" : "black"}`, 
                     }}
                   > */}
-                  <p className="entry-title" onClick={() => {setRead(true); handleTileClick(index); setEntryId(entry.id); setEdit(false)}}>
+                  <p className="entry-title">
                     {entry.title.slice(0, 15)}
                     {entry.title.length > 15 && "..."}
                   </p>
@@ -169,15 +190,18 @@ const Entry = () => {
                       }
                     />
                     <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
-                    <span onClick={() => handlePublic(entry.id, index)}>
-                      {entry.isPublic ? (
-                        <FaEye className="private" />
-                      ) : (
-                        <FaEyeSlash className="public" />
-                      )}
-                    </span>
-                    <Tooltip anchorSelect=".private">Make Private</Tooltip>
-                    <Tooltip anchorSelect=".public">Make Public</Tooltip>
+
+                    <FaEye
+                      onClick={() => {
+                        setRead(true);
+                        handleTileClick(index);
+                        setEntryId(entry.id);
+                        setEdit(false);
+                      }}
+                      className="views"
+                    />
+                    <Tooltip anchorSelect=".views">View</Tooltip>
+
                     {/* <Link
                       to={`${"edit"}/${entry.id}`}
                       style={{
@@ -185,7 +209,15 @@ const Entry = () => {
                         color: `${theme === "dark" ? "white" : "black"}`,
                       }}
                     > */}
-                      <FaPen className="edit" onClick={() => {setEdit(true); setRead(false); handleTileClick(index); setEntryId(entry.id)}} />
+                    <FaPen
+                      className="edit"
+                      onClick={() => {
+                        setEdit(true);
+                        setRead(false);
+                        handleTileClick(index);
+                        setEntryId(entry.id);
+                      }}
+                    />
                     {/* </Link> */}
                     <Tooltip anchorSelect=".edit">Edit</Tooltip>
                     <FaTrash
@@ -193,14 +225,23 @@ const Entry = () => {
                       className="delete"
                     />
                     <Tooltip anchorSelect=".delete">Move to trash</Tooltip>
-                    <FaEllipsisV onClick={() => toggleDropdown(index)} />
+                    {/* <FaEllipsisV onClick={() => toggleDropdown(index)} />
                     {isOpen[index] && (
                       <ul className={`toggle-menu ${theme}`}>
                         <li onClick={() => handlePublic(entry.id, index)}>
                           {entry.isPublic ? "Make Private" : "Make Public"}
                         </li>
                       </ul>
-                    )}
+                    )} */}
+                    <span onClick={() => handlePublic(entry.id, index)}>
+                      {entry.isPublic ? (
+                        <FaLockOpen className="private" />
+                      ) : (
+                        <FaLock className="public" />
+                      )}
+                    </span>
+                    <Tooltip anchorSelect=".private">Make Private</Tooltip>
+                    <Tooltip anchorSelect=".public">Make Public</Tooltip>
                   </div>
                 </div>
               ))}
@@ -289,7 +330,14 @@ const Entry = () => {
           )}
           {edit || read ? (
             <div className="view">
-              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null); setEdit(false)}} style={{padding: '20px 10px'}} />
+              <AiFillCloseCircle
+                onClick={() => {
+                  setRead(false);
+                  handleTileClick(null);
+                  setEdit(false);
+                }}
+                style={{ padding: "20px 10px" }}
+              />
               <EntryDetails index={entryId} />
             </div>
           ) : null}
