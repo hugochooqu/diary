@@ -70,9 +70,9 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path:'/community',
-      element: <Community />
-    }
+      path: "/community",
+      element: <Community />,
+    },
   ]
   // createRoutesFromElements(
   //   <Route>
@@ -109,7 +109,13 @@ function App() {
     showProfileHandler,
     profileIsShown,
     grid,
-    setGrid
+    setGrid,
+    read,
+    setRead,
+    activeIndex,
+    handleTileClick,
+    edit,
+    setEdit
   } = UseFetch("Entries");
   return (
     <main>
@@ -131,7 +137,13 @@ function App() {
           showProfileHandler,
           profileIsShown,
           grid,
-          setGrid
+          setGrid,
+          read,
+          setRead,
+          activeIndex,
+          handleTileClick,
+          edit,
+          setEdit
         }}
       >
         <RouterProvider router={router} />

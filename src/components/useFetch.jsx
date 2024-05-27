@@ -11,6 +11,15 @@ function UseFetch(collectionName) {
   const [isOpen, setIsOpen] = useState(false);
   const [profileIsShown, setProfileIsShown] = useState(false);
   const [grid, setGrid] = useState(true)
+  const [read, setRead] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null)
+
+
+  const handleTileClick = (index) => {
+    setActiveIndex(index)
+  }
+
 
 
   const showProfileHandler = () => {
@@ -100,7 +109,13 @@ function UseFetch(collectionName) {
     showProfileHandler,
     profileIsShown,
     grid,
-    setGrid
+    setGrid,
+    read,
+    setRead,
+    activeIndex,
+    handleTileClick,
+    edit,
+    setEdit
   };
 }
 

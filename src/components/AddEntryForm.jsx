@@ -63,7 +63,7 @@ const AddEntryForm = () => {
         userId,
         key,
         iv,
-        imageURL: downloadURL,
+        imageURL: downloadURL || '',
         isFavorite
       };
       await addDoc(collectionRef, entryData);

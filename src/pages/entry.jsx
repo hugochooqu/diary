@@ -25,22 +25,19 @@ import {
 import { Tooltip } from "react-tooltip";
 import { AiFillCloseCircle } from "react-icons/ai";
 import EntryDetails from "./entryDetails";
+import { set } from "@firebase/database";
 
 const Entry = () => {
-  const { loading, data, theme, grid } = useContext(stateContext);
+  const { loading, data, theme, grid, read, setRead, activeIndex, handleTileClick,edit, setEdit } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
-  const [read, setRead] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null)
   const [entryId, setEntryId] = useState('')
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
 
-  const handleTileClick = (index) => {
-    setActiveIndex(index)
-  }
+  
   const moveEntryToTrash = async (entryId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to move to trash?"
@@ -130,7 +127,7 @@ const Entry = () => {
           {}
           {/*  */}
           {grid ? (
-            <div className={`${read ? "changeGrid" : "entry-tiles"}`}>
+            <div className={`${read || edit ? "changeGrid" : "entry-tiles"}`}>
               {data.map((entry, index) => (
                 <div className="entry-tile" key={entry.id} style={{backgroundColor: activeIndex === index? 'rgb(136, 136, 136)' : 'rgb(35, 202, 202)'}}>
                   {/* <Link
@@ -141,7 +138,7 @@ const Entry = () => {
                       color: `${theme === "dark" ? "white" : "black"}`, 
                     }}
                   > */}
-                  <p className="entry-title" onClick={() => {setRead(true); handleTileClick(index); setEntryId(entry.id)}}>
+                  <p className="entry-title" onClick={() => {setRead(true); handleTileClick(index); setEntryId(entry.id); setEdit(false)}}>
                     {entry.title.slice(0, 15)}
                     {entry.title.length > 15 && "..."}
                   </p>
@@ -181,15 +178,15 @@ const Entry = () => {
                     </span>
                     <Tooltip anchorSelect=".private">Make Private</Tooltip>
                     <Tooltip anchorSelect=".public">Make Public</Tooltip>
-                    <Link
+                    {/* <Link
                       to={`${"edit"}/${entry.id}`}
                       style={{
                         textDecoration: "none",
                         color: `${theme === "dark" ? "white" : "black"}`,
                       }}
-                    >
-                      <FaPen className="edit" />
-                    </Link>
+                    > */}
+                      <FaPen className="edit" onClick={() => {setEdit(true); setRead(false); handleTileClick(index); setEntryId(entry.id)}} />
+                    {/* </Link> */}
                     <Tooltip anchorSelect=".edit">Edit</Tooltip>
                     <FaTrash
                       onClick={() => moveEntryToTrash(entry.id)}
@@ -290,12 +287,12 @@ const Entry = () => {
               ))}
             </div>
           )}
-          {read && (
+          {edit || read ? (
             <div className="view">
-              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null)}} style={{padding: '20px 10px'}} />
+              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null); setEdit(false)}} style={{padding: '20px 10px'}} />
               <EntryDetails index={entryId} />
             </div>
-          )}
+          ) : null}
         </div>
       )}
     </div>

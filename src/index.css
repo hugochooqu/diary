@@ -307,7 +307,7 @@ left: -40px;
 
 .add-entry {
   width: 70%;
-  height: 80vh;
+  height: 60vh;
   margin: 2% auto;
   background-color: #1b1a1a;
   border: solid 0px;
@@ -336,7 +336,7 @@ textarea {
 }
 
 .add-entry textarea {
-  height: 50vh;
+  height: 35vh;
   resize: none;
 }
 
@@ -482,7 +482,7 @@ textarea {
 
 .trash {
   height: 89vh;
-  width: 79.8vw;
+  width: 80vw;
   background-color: transparent;
   overflow: hidden;
   overflow-y: scroll;

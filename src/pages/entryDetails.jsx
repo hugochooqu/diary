@@ -23,7 +23,7 @@ const EntryDetails = (props) => {
     content: "",
     image: "",
   });
-  const { setLoading, loading } = useContext(stateContext);
+  const { setLoading, loading, read , edit } = useContext(stateContext);
   var entryId = props.index;
   console.log(entryId);
   const history = useNavigate();
@@ -104,7 +104,7 @@ const EntryDetails = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const docRef = doc(db, "Entries", id);
+      const docRef = doc(db, "Entries", entryId);
       await updateDoc(docRef, {
         title: formData.title || title,
         encryptedData: encryptedEditData,
@@ -124,7 +124,7 @@ const EntryDetails = (props) => {
 
   return (
     <div>
-      {/* {crud === "view" ? ( */}
+      {read && ( 
       <div className="entry-detail">
         {/* <p onClick={Back} style={{ cursor: "pointer" }}>
           <FaArrowLeft /> Back
@@ -138,12 +138,12 @@ const EntryDetails = (props) => {
             justifyContent: "center",
           }}
         >
-          {image !== null && <img src={image} alt="ima" />}
+          {image !== null && image !== '' && <img src={image} alt="ima" />}
         </div>
         <p>{decryptedData}</p>
       </div>
-      {/* ) : null} */}
-      {/* {crud === "edit" ? (
+      ) }
+       {edit && (
         <div className="add-entry">
           <form onSubmit={handleSubmit}>
             <input
@@ -166,7 +166,7 @@ const EntryDetails = (props) => {
             <button type="submit">Submit</button>
           </form>
         </div>
-      ) : null} */}
+      ) }
     </div>
   );
 };
