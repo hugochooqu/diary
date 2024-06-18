@@ -115,7 +115,10 @@ function App() {
     activeIndex,
     handleTileClick,
     edit,
-    setEdit
+    setEdit,
+    searchTerm,
+    handleClearSearch,
+    handleSearchChange,
   } = UseFetch("Entries");
   return (
     <main>
@@ -143,7 +146,10 @@ function App() {
           activeIndex,
           handleTileClick,
           edit,
-          setEdit
+          setEdit,
+          searchTerm,
+          handleClearSearch,
+          handleSearchChange,
         }}
       >
         <RouterProvider router={router} />

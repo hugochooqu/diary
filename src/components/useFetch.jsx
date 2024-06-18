@@ -14,6 +14,17 @@ function UseFetch(collectionName) {
   const [read, setRead] = useState(false);
   const [edit, setEdit] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+  }
+
+  const handleClearSearch = () => {
+    console.log('clicked')
+    setSearchTerm('')
+  }
 
 
   const handleTileClick = (index) => {
@@ -115,7 +126,10 @@ function UseFetch(collectionName) {
     activeIndex,
     handleTileClick,
     edit,
-    setEdit
+    setEdit,
+    searchTerm,
+    handleClearSearch,
+    handleSearchChange
   };
 }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { stateContext } from "../App";
 import Decrypt from "../components/decrypt";
 import { Link } from "react-router-dom";
@@ -22,12 +22,14 @@ import {
   FaLockOpen,
   FaPen,
   FaRibbon,
+  FaSearch,
   FaTrash,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import { AiFillCloseCircle } from "react-icons/ai";
 import EntryDetails from "./entryDetails";
 import { set } from "@firebase/database";
+import SearchQuery from "../components/SearchQuery";
 
 const Entry = () => {
   const {
@@ -41,14 +43,32 @@ const Entry = () => {
     handleTileClick,
     edit,
     setEdit,
+    searchTerm,
+    handleClearSearch,
+    handleSearchChange,
   } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
   const [entryId, setEntryId] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
 
   const currentUser = useAuth();
   const userId = currentUser?.uid;
   console.log(userId);
+
+  const searchInputRef = useRef(null);
+
+  // const handleSearchChange = (event) => {
+  //   setSearchTerm(event.target.value);
+  // };
+
+  // const handleClearSearch = () => {
+  //   if (searchInputRef.current) {
+  //     searchInputRef.current.value = "";
+  //     setSearchTerm("");
+  //     console.log("Search Input Cleared");
+  //   }
+  // };
 
   const moveEntryToTrash = async (entryId) => {
     const confirmDelete = window.confirm(
@@ -65,6 +85,8 @@ const Entry = () => {
           console.log(entryData);
           await addDoc(entryRef, entryData);
           console.log("okay");
+          setRead(false);
+          setEdit(false);
         } else {
           console.log("Document not found");
         }
@@ -122,8 +144,11 @@ const Entry = () => {
     setIsOpen(false);
   };
 
+  console.log(searchTerm);
+
   return (
     <div className="entries">
+      <SearchQuery />
       {loading ? (
         <p>Loading...</p>
       ) : (

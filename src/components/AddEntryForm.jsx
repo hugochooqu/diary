@@ -131,7 +131,7 @@ const AddEntryForm = () => {
   };
 
   return (
-    <div className="add-entry">
+    <div className="add-entry-form">
       <form onSubmit={handleSubmit}>
         <input
           type="text"

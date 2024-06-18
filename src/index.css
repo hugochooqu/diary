@@ -192,22 +192,22 @@ button {
   overflow-y: scroll;
   scrollbar-width: none;
   padding-left: 70px;
-  padding-top: 70px;
+  padding-top: 90px;
 }
 
-.grid{
+.grid {
   position: relative;
-left: -40px;
+  left: -40px;
   top: 20px;
 }
 
-.changeGrid{
+.changeGrid {
   display: grid;
   grid-template-columns: 100%;
   gap: 10px;
 }
 
-.view{
+.view {
   height: 77.8vh;
   width: 47vw;
   background-color: transparent;
@@ -217,8 +217,6 @@ left: -40px;
   border-radius: 10px 10px 0px 0px;
   border: solid 1px rgb(35, 202, 202);
   animation: slide-down 300ms ease-out forwards;
-
-
 }
 
 .dark {
@@ -305,6 +303,40 @@ left: -40px;
   font-size: 30px;
 }
 
+.add-entry-form {
+  width: 70%;
+  height: 80vh;
+  margin: 2% auto;
+  background-color: #1b1a1a;
+  border: solid 0px;
+  border-radius: 10px;
+}
+
+.add-entry-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 20px 20px;
+}
+
+.add-entry-form input,
+textarea {
+  background-color: transparent;
+  border-top: 0px;
+  border-left: 0px;
+  border-width: 0px;
+  border-bottom: solid 1px rgb(35, 202, 202);
+  outline: none;
+  color: white;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.add-entry-form textarea {
+  height: 45vh;
+  resize: none;
+}
+
 .add-entry {
   width: 70%;
   height: 60vh;
@@ -332,7 +364,7 @@ textarea {
   color: white;
   overflow-y: scroll;
   scrollbar-width: none;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .add-entry textarea {
@@ -375,10 +407,9 @@ textarea {
   flex-direction: column;
   gap: 20px;
   z-index: 0;
-  
 }
 
-.entry-list{
+.entry-list {
   height: 10vh;
   width: 95%;
   border: 1px solid rgb(35, 202, 202);
@@ -387,12 +418,10 @@ textarea {
   display: flex;
   flex-direction: column;
   animation: slide-down 300ms ease-out forwards;
-
-
 }
-.entry-list p{
+.entry-list p {
   text-decoration: underline;
-  text-transform:uppercase;
+  text-transform: uppercase;
   width: 10vw;
 }
 .entry-detail {
@@ -478,6 +507,55 @@ textarea {
   display: flex;
   flex-direction: row;
   gap: 350px;
+}
+
+.search input {
+  width: 50%;
+  height: 40px;
+  border: 1px solid rgb(35, 202, 202);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  /* position: absolute; */
+  transform: translateX(40%) translateY(50%);
+  background-color: #292727;
+  z-index: 0;
+  color: white;
+  padding-left: 70px;
+  font-size: medium;
+  text-transform: capitalize;
+}
+
+.search input::placeholder {
+  padding-left: 0%;
+  font-size: medium;
+  text-transform: capitalize;
+  color: white;
+}
+
+.search .icon {
+  position: absolute;
+  top: 7.5%;
+  left: 26%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.search-cancel {
+  position: relative;
+  top: 8%;
+  left: 76%;
+  transform: translateY(-50%);
+  z-index: 2;
+  /* pointer-events:none; */
+  /* display: none; */
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.search input:focus + .search-cancel {
+  display: block;
 }
 
 .trash {
@@ -601,7 +679,7 @@ textarea {
   background-color: rgb(35, 202, 202);
 }
 
-.reauthenticate{
+.reauthenticate {
   width: 50%;
   height: 24vh;
   background-color: black;
@@ -611,14 +689,14 @@ textarea {
   left: 150px;
 }
 
-.reauthenticate form{
+.reauthenticate form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 10px 40px;
 }
 
-.reauthenticate input{
+.reauthenticate input {
   width: 70%;
   height: 30px;
 }
