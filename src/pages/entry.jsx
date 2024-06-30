@@ -30,6 +30,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import EntryDetails from "./entryDetails";
 import { set } from "@firebase/database";
 import SearchQuery from "../components/SearchQuery";
+import SearchResult from "./SearchResult";
 
 const Entry = () => {
   const {
@@ -44,8 +45,10 @@ const Entry = () => {
     edit,
     setEdit,
     searchTerm,
+    search,
     handleClearSearch,
     handleSearchChange,
+    FilteredSearch
   } = useContext(stateContext);
   console.log(data.length);
   const [isOpen, setIsOpen] = useState(new Array(data?.length).fill(false));
@@ -149,8 +152,8 @@ const Entry = () => {
   return (
     <div className="entries">
       <SearchQuery />
-      {loading ? (
-        <p>Loading...</p>
+      {search ? (
+        <SearchResult />
       ) : (
         <div className="dashboard-main-main" style={{ margin: "auto" }}>
           {data.length === 0 && (

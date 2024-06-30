@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { db } from "../lib/firebase/auth";
 import { onSnapshot, collection } from "@firebase/firestore";
 import { useAuth } from "../lib/firebase/auth";
+import forge from "node-forge";
 
 function UseFetch(collectionName) {
   const [data, setData] = useState([]);
@@ -10,28 +11,27 @@ function UseFetch(collectionName) {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isOpen, setIsOpen] = useState(false);
   const [profileIsShown, setProfileIsShown] = useState(false);
-  const [grid, setGrid] = useState(true)
+  const [grid, setGrid] = useState(true);
   const [read, setRead] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [search, setSearch] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchQueryEntry, setSearchQueryEntry] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
 
-  }
-
+    
+  };
   const handleClearSearch = () => {
-    console.log('clicked')
-    setSearchTerm('')
-  }
-
+    console.log("clicked");
+    setSearchTerm("");
+  };
 
   const handleTileClick = (index) => {
-    setActiveIndex(index)
-  }
-
-
+    setActiveIndex(index);
+  };
 
   const showProfileHandler = () => {
     setProfileIsShown(!profileIsShown);
@@ -101,7 +101,21 @@ function UseFetch(collectionName) {
     return () => unsubscribe();
   }, [collectionName, currentUser]);
 
-  
+  const FilteredSearch = data.filter((entry) => {
+    const decipher = forge.cipher.createDecipher("AES-CBC", entry?.key);
+    decipher.start({ iv: entry?.iv });
+    decipher.update(forge.util.createBuffer(entry?.encryptedData));
+    decipher.finish();
+    const decryptedData = decipher.output.toString("utf8");
+
+    // console.log(data.title);
+
+    const matchesSearchTerm =
+      entry.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      decryptedData?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesSearchTerm;
+  });
 
   return {
     data,
@@ -129,7 +143,12 @@ function UseFetch(collectionName) {
     setEdit,
     searchTerm,
     handleClearSearch,
-    handleSearchChange
+    handleSearchChange,
+    searchQueryEntry,
+    setSearchQueryEntry,
+    FilteredSearch,
+    search,
+    setSearch,
   };
 }
 
