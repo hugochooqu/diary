@@ -25,7 +25,7 @@ const Dashboard = () => {
   const [recentEntries, setRecentEntries] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, loading } = useContext(stateContext);
+  const { data, loading, formattedDate } = useContext(stateContext);
   // console.log(data);
 
   const currentUser = useAuth();
@@ -214,7 +214,7 @@ const Dashboard = () => {
                 </span>
               </li>
               <li>Logout</li>
-            </ul>
+            </ul> 
           )}
         </div>
 

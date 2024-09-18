@@ -275,7 +275,7 @@ const Entry = () => {
               ))}
             </div>
           ) : (
-            <div className="entry-lists">
+            <div className= {`${read || edit ? "listView" : 'entry-lists'}`}>
               {data.map((entry, index) => (
                 <div className="entry-list" key={index}>
                   <Link
@@ -308,6 +308,17 @@ const Entry = () => {
                       left: "800px",
                     }}
                   >
+                    <FaEye
+                      onClick={() => {
+                        setRead(true);
+                        handleTileClick(index);
+                        setEntryId(entry.id);
+                        setEdit(false);
+                      }}
+                      className="views"
+                    />
+                    <Tooltip anchorSelect=".views">View</Tooltip>
+
                     <FaHeart
                       className="favorite"
                       onClick={() => handleFavorite(entry.id)}
@@ -318,7 +329,7 @@ const Entry = () => {
                       }
                     />
                     <Tooltip anchorSelect=".favorite">Favorite</Tooltip>
-                    <span onClick={() => handlePublic(entry.id, index)}>
+                    {/* <span onClick={() => handlePublic(entry.id, index)}>
                       {entry.isPublic ? (
                         <FaEye className="private" />
                       ) : (
@@ -326,7 +337,7 @@ const Entry = () => {
                       )}
                     </span>
                     <Tooltip anchorSelect=".private">Make Private</Tooltip>
-                    <Tooltip anchorSelect=".public">Make Public</Tooltip>
+                    <Tooltip anchorSelect=".public">Make Public</Tooltip> */}
 
                     <Link
                       to={`${"edit"}/${entry.id}`}

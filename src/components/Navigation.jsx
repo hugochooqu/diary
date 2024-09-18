@@ -21,7 +21,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getAuth, reauthenticateWithCredential, signOut } from "@firebase/auth";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaGrip } from "react-icons/fa6";
-import {Tooltip} from 'react-tooltip'
+import { Tooltip } from "react-tooltip";
 import { set } from "@firebase/database";
 
 const Navigation = () => {
@@ -36,7 +36,8 @@ const Navigation = () => {
     grid,
     setRead,
     handleTileClick,
-    setEdit
+    setEdit,
+    formattedDate
   } = useContext(stateContext);
 
   const [confirmPassword, setConfirmPassword] = useState(false);
@@ -157,7 +158,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "home" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("home"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("home");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaHome color={activeLink === "home" ? "purple" : null} /> Home
               </li>
@@ -171,7 +177,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "notes" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("notes"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("notes");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaLightbulb color={activeLink === "notes" ? "yellow" : null} />{" "}
                 Add Notes
@@ -186,7 +197,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "favorite" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("favorite"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("favorite");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaHeart color={activeLink === "favorite" ? "red" : null} />{" "}
                 Favorites
@@ -201,7 +217,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "reminders" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("reminders"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("reminders");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaBell color={activeLink === "reminders" ? "gold" : null} />{" "}
                 Reminders
@@ -216,7 +237,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "trash" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("trash"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("trash");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaTrash color={activeLink === "trash" ? "grey" : null} /> Trash
               </li>
@@ -230,7 +256,12 @@ const Navigation = () => {
             >
               <li
                 className={activeLink === "public" ? "active" : "inactive"}
-                onClick={() => {handleLinkClink("public"); setRead(false); setEdit(false); handleTileClick(null)}}
+                onClick={() => {
+                  handleLinkClink("public");
+                  setRead(false);
+                  setEdit(false);
+                  handleTileClick(null);
+                }}
               >
                 <FaBars /> Public Diaries
               </li>
@@ -249,22 +280,29 @@ const Navigation = () => {
                 <FaUsers /> Community
               </li>
             </Link>
-
-            
-            
           </ul>
         </div>
       </div>
       <div className="dashboard-main">
         <div className="dashboard-header">
+          <p>{formattedDate}</p>
           <h1>DEE YA</h1>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <span className="grid" onClick={() => {setGrid(!grid); setRead(false); handleTileClick(null) }}>
-              {grid ?<FaList className="list" size={20} /> :<FaGrip className="grids" size={20} />  }
+            <span
+              className="grid"
+              onClick={() => {
+                setGrid(!grid);
+                setRead(false);
+                handleTileClick(null);
+              }}
+            >
+              {grid ? (
+                <FaList className="list" size={20} />
+              ) : (
+                <FaGrip className="grids" size={20} />
+              )}
               <Tooltip anchorSelect=".grids">Grid view</Tooltip>
               <Tooltip anchorSelect=".list">List view</Tooltip>
-
-            
             </span>
             <FaCog
               style={{ padding: "20px 0px", cursor: "pointer" }}
