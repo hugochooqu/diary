@@ -46,6 +46,7 @@ const Entry = () => {
     setEdit,
     searchTerm,
     search,
+    stopSpeaking,
     handleClearSearch,
     handleSearchChange,
     FilteredSearch
@@ -374,6 +375,7 @@ const Entry = () => {
                   setRead(false);
                   handleTileClick(null);
                   setEdit(false);
+                  stopSpeaking();
                 }}
                 style={{ padding: "20px 10px" }}
               />

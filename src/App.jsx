@@ -123,7 +123,10 @@ function App() {
     setSearchQueryEntry,
     FilteredSearch,
     search,
-    setSearch
+    setSearch,
+    speaking,
+    setSpeaking,
+    stopSpeaking
   } = UseFetch("Entries");
   return (
     <main>
@@ -159,7 +162,10 @@ function App() {
           setSearchQueryEntry,
           FilteredSearch,
           search,
-          setSearch
+          setSearch,
+          speaking,
+          setSpeaking,
+          stopSpeaking
         }}
       >
         <RouterProvider router={router} />

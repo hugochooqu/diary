@@ -18,6 +18,14 @@ function UseFetch(collectionName) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchQueryEntry, setSearchQueryEntry] = useState([]);
+  const [speaking, setSpeaking] = useState(false)
+
+  
+
+const stopSpeaking = () => {
+  window.speechSynthesis.cancel()
+  setSpeaking(false)
+};
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -149,6 +157,9 @@ function UseFetch(collectionName) {
     FilteredSearch,
     search,
     setSearch,
+    speaking,
+    setSpeaking,
+    stopSpeaking
   };
 }
 

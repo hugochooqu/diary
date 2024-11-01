@@ -131,7 +131,7 @@ const EntryDetails = (props) => {
         </p> */}
         <TextToSpeech entry={decryptedData} />
         {loading ? <p>Loading...</p> : <h1>{title}</h1>}
-        <div
+        {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -139,7 +139,7 @@ const EntryDetails = (props) => {
           }}
         >
           {image !== null && image !== '' && <img src={image} alt="ima" />}
-        </div>
+        </div> */}
         <p>{decryptedData}</p>
       </div>
       ) }

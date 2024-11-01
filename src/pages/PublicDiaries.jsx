@@ -11,7 +11,7 @@ import EntryDetails from "./entryDetails";
 
 const PublicDiaries = () => {
   const currentUser = useAuth();
-  const { setLoading, read, setRead, handleTileClick, activeIndex } = useContext(stateContext);
+  const { setLoading, read, setRead, handleTileClick, activeIndex, stopSpeaking } = useContext(stateContext);
   const [publicDiaries, setPublicDiaries] = useState([]);
   const [entryId, setEntryId] = useState('')
 
@@ -90,7 +90,7 @@ const PublicDiaries = () => {
           </div>
         ))}
         {read && (<div className="view">
-              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null)}} style={{padding: '20px 10px'}} />
+              <AiFillCloseCircle onClick={() => {setRead(false); handleTileClick(null); stopSpeaking()}} style={{padding: '20px 10px'}} />
               <EntryDetails index={entryId} />
             </div>)}
       </div>
