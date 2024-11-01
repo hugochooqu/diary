@@ -20,6 +20,7 @@ import Favorites from "./pages/Favorites";
 import Reminders from "./pages/Reminders";
 import ViewProfile from "./pages/ViewProfile";
 import Community from "./pages/Community";
+import MobileWarning from "./components/MobileWarning";
 
 const router = createBrowserRouter(
   [
@@ -169,6 +170,7 @@ function App() {
         }}
       >
         <RouterProvider router={router} />
+        <MobileWarning /> 
         {profileIsShown && <ViewProfile />}
       </stateContext.Provider>
     </main>
